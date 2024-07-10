@@ -103,4 +103,25 @@ public class InventoryService {
             fm.fileDelete(sysFiles, session);
         }
     }
+
+    //관리자페이지
+    //상품 리스트 가져오기
+    public List<InventoryDto> getAdmin() {
+        List<InventoryDto> iList = null;
+        iList = iDao.getInventoryList();
+        if(iList != null) {
+            return iList;
+        } else  {
+            return null;
+        }
+    }
+
+    public List<InventoryDto> quickUpdate(InventoryDto inventory) {
+        List<InventoryDto> iList = null;
+        if(iDao.quickUpadate(inventory)) {
+            iList = iDao.getInventoryList();
+            log.info("빠른 수정 저장 성공");
+        }
+        return iList;
+    }
 }

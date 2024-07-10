@@ -17,10 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -188,6 +190,21 @@ public class InventoryController {
             return "redirect:/list";
         } else {
             rttr.addFlashAttribute("msg", "상품 업로드 실패");
+            return "redirect:/list";
+        }
+    }
+
+
+    //관리자페이지
+    @GetMapping("/admin/main")
+    public String getAdmin(Model model, HttpSession session) throws JsonProcessingException {
+        List<InventoryDto> iList = iSer.getInventoryList();
+        if (iList != null) {
+            System.out.println("iList:" + iList);
+            model.addAttribute("json", new ObjectMapper().writeValueAsString(iList));
+            model.addAttribute("iList", iList);
+            return "adminMain";
+        } else {
             return "redirect:/list";
         }
     }

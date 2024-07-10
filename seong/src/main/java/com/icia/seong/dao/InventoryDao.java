@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,8 @@ public interface InventoryDao {
     boolean addItemSelectKey(InventoryDto inventory);
 
     List<InventoryDto> getInventoryList();
+
+    List<InventoryDto> getAdmin();
 
     boolean fileInsertMap(Map<String, String> fMap);
 
@@ -38,4 +41,6 @@ public interface InventoryDao {
     //상품 삭제
     @Delete("delete from h_product where h_p_num=#{h_p_num}")
     boolean deleteItem(Integer h_p_num);
+
+    boolean quickUpadate(InventoryDto inventory);
 }

@@ -76,7 +76,7 @@
             <div class="col-md-8">
                 <div class="card-body">
                     <h5 class="card-title">${inventory.h_p_name}</h5>
-                    <p class="card-text">${inventory.h_p_price}</p>
+                    <p class="card-text">${inventory.h_p_price}원</p>
                     <p class="card-text"><small class="text-body-secondary">${inventory.h_p_desc}</small></p>
                     <p class="card-text"><small class="text-body-secondary">수량 선택: <input type="text" id="view_qty" name="view_qty" value="3">개</small></p>
                     <div class="d-grid gap-2 d-md-block mb-3">
