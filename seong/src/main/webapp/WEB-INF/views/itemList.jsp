@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="d-grid gap-2 w-75 mb-3 mx-auto">
-    <a href="add_item" class="btn btn-primary" role="button">상품등록</a>
+    <a href="list/add_item" class="btn btn-primary" role="button">상품등록</a>
     <a href="/admin/main" class="btn btn-primary" role="button">나 관리자이올시다</a>
 </div>
 <div class="row row-cols-1 row-cols-md-2 g-4 w-75 mx-auto">

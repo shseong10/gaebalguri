@@ -38,7 +38,7 @@ public class InventoryController {
     private CartService cSer;
 
     //상품 업로드
-    @GetMapping("/add_item")
+    @GetMapping("/list/add_item")
     public String addItem(Model model) {
         log.info("상품 업로드 페이지로 이동");
         List<CategoryDto> cList = iSer.getCategoryList();
@@ -49,7 +49,7 @@ public class InventoryController {
         return "addItem";
     }
 
-    @PostMapping("/add_item")
+    @PostMapping("/list/add_item")
     public String addItem(InventoryDto inventory, HttpSession session, RedirectAttributes rttr) {
         log.info("상품 업로드");
         log.info(">>>>상품: {}", inventory);
@@ -100,7 +100,7 @@ public class InventoryController {
     }
 
     //상품 수정하기
-    @GetMapping("/update_item")
+    @GetMapping("/list/update_item")
     public String updateItem(@RequestParam("h_p_num") Integer h_p_num, Model model) throws JsonProcessingException {
         log.info("{}번째 상품 수정 페이지로 이동", h_p_num);
         InventoryDto inventory = iSer.getInventoryDetail(h_p_num);
@@ -118,7 +118,7 @@ public class InventoryController {
         }
     }
 
-    @PostMapping("/update_item")
+    @PostMapping("/list/update_item")
     public String updateItem(InventoryDto inventory, HttpSession session, RedirectAttributes rttr) {
         log.info("상품 수정");
         log.info(">>>>상품: {}", inventory);
@@ -132,12 +132,12 @@ public class InventoryController {
             return "redirect:/list";
         } else {
             rttr.addFlashAttribute("msg", "상품 수정 실패");
-            return "redirect:/update_Item";
+            return "redirect:/list/update_Item";
         }
     }
 
     //상품 삭제하기 *이미 주문되었거나 장바구니에 담긴 상품은 삭제 불가.
-    @GetMapping("/delete_item")
+    @GetMapping("/list/delete_item")
     public String deleteItem(@RequestParam("h_p_num") Integer h_p_num, HttpSession session, RedirectAttributes rttr) {
         log.info(">>>>>삭제 대상 글번호: {}", h_p_num);
 
@@ -153,13 +153,13 @@ public class InventoryController {
     }
 
     //구매하기
-    @GetMapping("/buy_item")
+    @GetMapping("/list/buy_item")
     public String buyItem() {
         log.info("상품 구매 페이지로 이동");
         return "buyItem";
     }
     
-    @PostMapping("/buy_item")
+    @PostMapping("/list/buy_item")
     public String buyItem(OrderDto order, HttpSession session, RedirectAttributes rttr) {
         log.info("상품 주문");
         log.info("주문 옵션: {}", order);
@@ -174,13 +174,13 @@ public class InventoryController {
     }
 
     //장바구니
-    @GetMapping("/take_item")
+    @GetMapping("/list/take_item")
     public String takeItem() {
         log.info("상품을 장바구니에 저장");
         return "takeItem";
     }
 
-    @PostMapping("/take_item")
+    @PostMapping("/list/take_item")
     public String takeItem(CartDto cart, HttpSession session, RedirectAttributes rttr) {
         log.info("상품을 장바구니에 저장");
         log.info("주문 옵션: {}", cart);
@@ -198,6 +198,11 @@ public class InventoryController {
     //관리자페이지
     @GetMapping("/admin/main")
     public String getAdmin(Model model, HttpSession session) throws JsonProcessingException {
+        List<CategoryDto> cList = iSer.getCategoryList();
+        if (cList != null) {
+            System.out.println("cList:" + cList);
+            model.addAttribute("cList", cList);
+        }
         List<InventoryDto> iList = iSer.getInventoryList();
         if (iList != null) {
             System.out.println("관리자페이지 테이블 출력==================");

@@ -20,26 +20,42 @@
                 "locale": "ko"
             });
             fp.config.onChange.push(function (selectedDates, dateStr, fp) {
-                const isoDatetime = new Date(dateStr).toISOString().slice(0, 16); // 초 단위는 생략
-                document.getElementById('h_p_enddate').value = isoDatetime;
+                const date = new Date(dateStr);
+                const isoDateTime = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
+
+                document.getElementById('h_p_enddate').value = isoDateTime;
             })
+
+            const fileElem = document.getElementById('attachments')
+            fileElem.addEventListener('change', imgCreate, false);
+
+            function imgCreate() {
+                const curFiles = fileElem.files;
+                const preview = document.getElementById('preview');
+                for (const file of curFiles) {
+                    const img = URL.createObjectURL(file);
+                    preview.src = img;
+                    preview.style.width = '100%';
+                }
+            }
         }
 
         function upload(){
             document.getElementById('attachments').click()
         }
+
     </script>
 </head>
 <body>
-<form action="/add_item" method="post" enctype="multipart/form-data">
+<form action="/list/add_item" method="post" enctype="multipart/form-data">
     <div class="card mb-3 p-3 w-75 mx-auto">
         <div class="p-3">
             <div class="row row-cols-2">
                 <div class="col-md-4">
                     <div class="text-center align-middle" onclick="upload()" style="cursor:pointer; border:1px black solid">
-                        <input type="file" class="form-control" name="attachments" id="attachments" multiple hidden="hidden">
-                        <i class="bi bi-images" style="font-size: 5rem;"></i><br>
+                        <img src="https://icons.getbootstrap.com/assets/icons/images.svg" width="50%" id="preview"><br>
                         이미지 첨부
+                        <input type="file" name="attachments" id="attachments" multiple accept="image/*" hidden="hidden"/>
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -83,7 +99,7 @@
                                             지정일까지
                                         </label>
                                         <input type="datetime-local" class="form-control myInput mt-1" placeholder="날짜를 선택하세요." readonly="readonly">
-                                        <input type="text" name="h_p_enddate" id="h_p_enddate" value="${inventory.h_p_enddate}">
+                                        <input type="text" name="h_p_enddate" id="h_p_enddate" hidden="hidden">
                                     </div>
                                 </div>
                             </div>

@@ -57,14 +57,24 @@
     </select>
     <!-- 상품 상세 보기 -->
     <select id="getInventoryDetail" parameterType="Integer" resultMap="ifList">
-        select h_p_num, h_p_name, h_p_price, h_p_desc, h_p_category, h_p_quantity,
+        select h_p_num, h_p_name, h_p_price, h_p_desc, h_p_category, h_p_quantity, h_p_enddate,
+        date_format(h_p_enddate,'%Y-%m-%d %H:%i') h_p_enddateString,
+        h_p_orifilename, h_p_sysfilename
+        from h_product left join h_p_image
+        on h_p_num=h_p_pnum
+        where h_p_num=#{h_p_num}
+    </select>
+    <!-- 상품 상세 보기 -->
+    <select id="getQuickView" parameterType="Integer" resultMap="ifList">
+        select h_p_num, h_p_name, h_p_price, h_p_desc, h_p_category, h_p_quantity, h_p_enddate,
+        date_format(h_p_enddate,'%Y-%m-%d %H:%i') h_p_enddateString,
         h_p_orifilename, h_p_sysfilename
         from h_product left join h_p_image
         on h_p_num=h_p_pnum
         where h_p_num=#{h_p_num}
     </select>
     <!-- 관리자 상품 빠른 수정-->
-    <update id="quickUpadate" parameterType="InventoryDto">
+    <update id="quickUpdate" parameterType="InventoryDto">
         update h_product set h_p_name = #{h_p_name}, h_p_category = #{h_p_category}, h_p_price = #{h_p_price},
         h_p_quantity = #{h_p_quantity}, h_p_desc = #{h_p_desc}, h_p_date = default, h_p_enddate = #{h_p_enddate}
         where h_p_num = #{h_p_num}

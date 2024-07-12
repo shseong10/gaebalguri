@@ -2,12 +2,10 @@ package com.icia.seong.dao;
 
 import com.icia.seong.dto.CategoryDto;
 import com.icia.seong.dto.InventoryDto;
-import com.icia.seong.dto.InventoryFile;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,5 +40,7 @@ public interface InventoryDao {
     @Delete("delete from h_product where h_p_num=#{h_p_num}")
     boolean deleteItem(Integer h_p_num);
 
-    boolean quickUpadate(InventoryDto inventory);
+    boolean quickUpdate(InventoryDto inventory);
+
+    List<InventoryDto> getQuickView(Integer h_p_num);
 }

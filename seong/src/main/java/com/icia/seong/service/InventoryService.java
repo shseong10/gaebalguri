@@ -118,10 +118,20 @@ public class InventoryService {
 
     public List<InventoryDto> quickUpdate(InventoryDto inventory) {
         List<InventoryDto> iList = null;
-        if(iDao.quickUpadate(inventory)) {
+        if(iDao.quickUpdate(inventory)) {
             iList = iDao.getInventoryList();
             log.info("빠른 수정 저장 성공");
         }
         return iList;
+    }
+
+    public List<InventoryDto> getQuickView(Integer h_p_num) {
+        List<InventoryDto> quickView = null;
+        quickView = iDao.getQuickView(h_p_num);
+        if (quickView != null) {
+            return quickView;
+        } else {
+            return null;
+        }
     }
 }

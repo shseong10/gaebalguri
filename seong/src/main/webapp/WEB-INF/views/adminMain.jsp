@@ -14,53 +14,64 @@
     <script>
         function modalView(e){
             let objNum = parseInt(e.name); //클릭한 대상의 id값(=상품번호)을 가져와서 저장
-            const json = ${json}; //controller에서 model addAttribute로 가져온 json타입 리스트를 변수에 저장
-            const result = json.find(({h_p_num}) => h_p_num === objNum); //json변수에서 h_p_num이 objNum값과 같은 요소를 검색
 
-            console.log("새로운 모달창 열기");
-            console.log(result);
-            const view_num = result.h_p_num;
-            const view_category = result.h_p_category;
-            const view_name = result.h_p_name;
-            const view_price = result.h_p_price;
-            const view_enddate = new Date(result.h_p_enddateString).toISOString().slice(0, 16);
-            const view_quantity = result.h_p_quantity;
-            const view_desc = result.h_p_desc;
+            let httpRequest;
+            httpRequest = new XMLHttpRequest();
+            httpRequest.onreadystatechange = () => {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        console.log('새로운 모달창 열기')
 
-            const modalViewTitle = document.getElementById('modal_containerLabel');
-            const modalViewNum = document.getElementById('h_p_num');
-            const modalViewCategory = document.getElementById('h_p_category');
-            const modalViewh_p_name = document.getElementById('h_p_name');
-            const modalViewPrice = document.getElementById('h_p_price');
-            const modalViewEnddate = document.getElementById('h_p_enddate');
-            const modalViewQty = document.getElementById('h_p_quantity');
-            const modalViewDesc = document.getElementById('h_p_desc');
+                        const result = JSON.parse(httpRequest.responseText);
 
-            modalViewTitle.textContent = view_name;
-            modalViewNum.setAttribute('value', view_num);
-            modalViewCategory.setAttribute('value', view_category);
-            modalViewh_p_name.setAttribute('value', view_name);
-            modalViewPrice.setAttribute('value', view_price);
-            modalViewEnddate.setAttribute('value', view_enddate);
-            modalViewQty.setAttribute('value', view_quantity);
-            modalViewDesc.setAttribute('value', view_desc);
-            modalViewDesc.textContent = view_desc;
+                        const modalViewTitle = document.getElementById('modal_containerLabel');
+                        const modalViewNum = document.getElementById('h_p_num');
+                        const modalViewh_p_name = document.getElementById('h_p_name');
+                        const modalViewPrice = document.getElementById('h_p_price');
+                        const modalViewEnddate = document.getElementById('h_p_enddate');
+                        const modalViewQty = document.getElementById('h_p_quantity');
+                        const modalViewDesc = document.getElementById('h_p_desc');
 
-            const modalViewImgFilename = result.ifList[0].h_p_sysFileName;
-            const modalViewImg = document.getElementById('h_p_img');
-            modalViewImg.setAttribute('src', '/upload/' + modalViewImgFilename);
+                        modalViewTitle.textContent = result[0].h_p_name;
+                        modalViewNum.setAttribute('value', result[0].h_p_num);
+                        modalViewh_p_name.setAttribute('value', result[0].h_p_name);
+                        modalViewPrice.setAttribute('value', result[0].h_p_price);
+                        modalViewEnddate.setAttribute('value', result[0].h_p_enddate);
+                        modalViewQty.setAttribute('value', result[0].h_p_quantity);
+                        modalViewDesc.setAttribute('value', result[0].h_p_desc);
+                        modalViewDesc.textContent = result[0].h_p_desc;
 
-            const myInput = document.querySelector(".myInput");
-            const fp = flatpickr(myInput, {
-                enableTime: true,
-                dateFormat: "Y-m-d H:i",
-                "locale": "ko",
-                defaultDate: result.h_p_enddateString
-            });
-            fp.config.onChange.push(function (selectedDates, dateStr, fp) {
-                const isoDatetime = new Date(dateStr).toISOString().slice(0, 16); // 초 단위는 생략
-                document.getElementById('h_p_enddate').value = isoDatetime;
-            })
+                        //저장된 이미지 가져오기
+                        const modalViewImgFilename = result[0].ifList[0].h_p_sysFileName;
+                        const modalViewImg = document.getElementById('h_p_img');
+                        modalViewImg.setAttribute('src', '/upload/' + modalViewImgFilename);
+
+                        //저장된 카테고리 가져오기
+                        const savedCategory = result[0].h_p_category
+                        const modalViewCategory = document.querySelector('select[name=h_p_category]').options;
+                        for (let i = 0; i < modalViewCategory.length; i++) {
+                            if (modalViewCategory[i].value == savedCategory) modalViewCategory[i].selected = true;
+                        }
+
+                        const myInput = document.querySelector(".myInput");
+                        const fp = flatpickr(myInput, {
+                            enableTime: true,
+                            dateFormat: "Y-m-d H:i",
+                            "locale": "ko",
+                            defaultDate: result[0].h_p_enddateString
+                        });
+                        fp.config.onChange.push(function (selectedDates, dateStr, fp) {
+                            const date = new Date(dateStr);
+                            const isoDateTime = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
+
+                            document.getElementById('h_p_enddate').value = isoDateTime;
+                        })
+
+                    }
+                }
+            }
+            httpRequest.open('GET', '/admin/quickview?h_p_num='+objNum , true);
+            httpRequest.send();
         }
 
         function quickUpdate(){
@@ -86,9 +97,10 @@
             reqJson.h_p_category = inputCategory;
             reqJson.h_p_name = inputName;
             reqJson.h_p_price = inputPrice;
-            reqJson.h_p_enddate = inputEnddate;
+            if (inputEnddate != "null") reqJson.h_p_enddate = inputEnddate;
             reqJson.h_p_quantity = inputQty;
             reqJson.h_p_desc = inputDesc;
+            console.log(reqJson)
 
             let httpRequest;
             httpRequest = new XMLHttpRequest();
@@ -99,31 +111,32 @@
                         console.log('모달창 내용 업데이트')
                         console.log(update_result);
 
-                        const enddate = new Date(update_result.h_p_enddate)
+                        if (update_result.h_p_enddate != null) {
+                            const enddate = new Date(update_result.h_p_enddate)
 
-                        const yyyy = enddate.getFullYear()
-                        const mm = enddate.getMonth() + 1 // getMonth() is zero-based
-                        const dd = enddate.getDate()
-                        const hh = enddate.getHours()
-                        const ii = enddate.getMinutes()
+                            const yyyy = enddate.getFullYear()
+                            const mm = enddate.getMonth() + 1 // getMonth() is zero-based
+                            const dd = enddate.getDate()
+                            const hh = enddate.getHours()
+                            const ii = enddate.getMinutes()
+
+                            const h_p_enddate = yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + ii
+                            const listEnddate = document.getElementById(inputNum+'_enddate');
+                            listEnddate.textContent = h_p_enddate;
+                        }
 
                         const h_p_category = update_result.h_p_category;
                         const h_p_name = update_result.h_p_name;
                         const h_p_price = update_result.h_p_price;
-                        const h_p_enddate = yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + ii
                         const h_p_quantity = update_result.h_p_quantity;
-                        // const h_p_desc = update_result.h_p_desc;
-
 
                         const listName = document.getElementById(inputNum+'_name');
                         const listCategory = document.getElementById(inputNum+'_category');
                         const listPrice = document.getElementById(inputNum+'_price');
-                        const listEnddate = document.getElementById(inputNum+'_enddate');
                         const listQuantity = document.getElementById(inputNum+'_quantity');
                         listName.textContent = h_p_name;
                         listCategory.textContent = h_p_category;
                         listPrice.textContent = h_p_price;
-                        listEnddate.textContent = h_p_enddate;
                         listQuantity.textContent = h_p_quantity;
                     }
                 }
@@ -185,7 +198,7 @@
         </table>
     </div>
     <div class="d-grid gap-2 w-75 mb-3 mx-auto">
-        <a href="/add_item" class="btn btn-primary" role="button">상품 등록 페이지를 열기</a>
+        <a href="/list/add_item" class="btn btn-primary" role="button">상품 등록 페이지를 열기</a>
         <a href="/list" class="btn btn-primary" role="button">판매 페이지로 돌아가기</a>
     </div>
     <!-- Modal -->
@@ -197,25 +210,99 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row g-0">
+                    <div class="p-3">
+                        <div class="row row-cols-2">
                             <div class="col-md-4">
+                                상품 이미지
                                 <img src="#" class="img-fluid rounded-start" alt="..." id="h_p_img">
+                                <input type="file" class="form-control" name="attachments" id="attachments" multiple>
                             </div>
                             <div class="col-md-8">
-                                <div class="card-body" style="padding-left: 1.5rem">
-                                    <form id="quick_update">
-                                    <input type="hidden" id="h_p_num" value="h_p_num">
-                                    <input type="hidden" id="h_p_category" value="h_p_category">
-                                    <p class="card-text text-body-secondary">상품명 <input type="text" class="form-control" id="h_p_name" name="h_p_name" value="상품명"></p>
-                                    <p class="card-text text-body-secondary">가격 <input type="text" class="form-control" id="h_p_price" name="h_p_price" value="가격"></p>
-                                    <p class="card-text text-body-secondary">재고 <input type="text" class="form-control" id="h_p_quantity" name="h_p_quantity" value="재고"></p>
-                                    <p class="card-text text-body-secondary">판매기간 <input type="datetime-local" class="form-control myInput mt-1" placeholder="날짜를 선택하세요." readonly="readonly">
-                                                                                    <input type="text" name="h_p_enddate" id="h_p_enddate" value="날짜" hidden="hidden"></p>
-                                    <p class="card-text text-body-secondary">설명 <textarea class="form-control" id="h_p_desc" name="h_p_desc" style="height: 10rem"></textarea></p>
-                                    </form>
+                                <div class="row row-cols-2 gy-3">
+                                    <div class="col-6">
+                                        <input type="hidden" id="h_p_num" name="h_p_num" value="#">
+                                        상품명
+                                        <input type="text" class="form-control" id="h_p_name" name="h_p_name">
+                                    </div>
+                                    <div class="col-6">
+                                        카테고리
+                                        <select id="h_p_category" name="h_p_category" class="form-select">
+                                            <option>카테고리 선택</option>
+                                            <c:forEach var="category" items="${cList}">
+                                                <option value="${category.c_name}">${category.c_name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        가격
+                                        <input type="text" class="form-control" id="h_p_price" name="h_p_price">
+                                    </div>
+                                    <div class="col-6">
+                                        수량
+                                        <input type="text" class="form-control" id="h_p_quantity" name="h_p_quantity">
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row row-cols-2 g-2">
+                                            <div class="col-3">
+                                                판매기간
+                                            </div>
+                                            <div class="col-9">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="radioDate" id="radioDate1" value="option1" checked>
+                                                    <label class="form-check-label" for="radioDate1">
+                                                        지정안함
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="radioDate" id="radioDate2" value="option2">
+                                                    <label class="form-check-label" for="radioDate2">
+                                                        지정일까지
+                                                    </label>
+                                                    <input type="datetime-local" class="form-control myInput mt-1" placeholder="날짜를 선택하세요." readonly="readonly">
+                                                    <input type="text" name="h_p_enddate" id="h_p_enddate" hidden="hidden">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row row-cols-2 g-2">
+                                            <div class="col-3">
+                                                구매제한
+                                            </div>
+                                            <div class="col-9">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="radioMem" id="radioMem1" value="option1" checked>
+                                                    <label class="form-check-label" for="radioMem1">
+                                                        모든 회원
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="radioMem" id="radioMem2" value="option2">
+                                                    <label class="form-check-label" for="radioMem2">
+                                                        <div class="row">
+                                                            <div class="col-auto">
+                                                                구매 가능 레벨
+                                                            </div>
+                                                            <div class="col-auto p-0">
+                                                                <input type="text" class="form-control" size="1em" id="inputUserLevel">
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                부터
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div><!-- 구매제한 내용 오른쪽-->
+                                        </div><!-- 구매제한 내용 좌우정렬 -->
+                                    </div><!-- 구매제한 랩핑 끝-->
+                                </div><!-- 상품정보 input 좌우정렬 -->
+                                <div>
+                                    <label for="formGroupExampleInput" class="form-label">상품설명</label>
+                                    <textarea class="form-control" id="h_p_desc" name="h_p_desc" style="height: 10rem"></textarea>
                                 </div>
-                            </div>
-                    </div>
+                            </div><!-- 상품정보 랩핑 끝-->
+                        </div><!-- 상품이미지/상품정보 좌우정렬 -->
+                    </div><!-- 전체 내용 랩핑 끝 -->
                 </div>
                 <div class="modal-footer d-flex">
                     <button type="button" class="btn btn-danger me-auto" data-bs-dismiss="modal">상품 삭제</button>
