@@ -4,8 +4,8 @@
 <mapper namespace="com.icia.seong.dao.InventoryDao">
     <!-- 상품 등록 -->
     <insert id="addItemSelectKey" parameterType="InventoryDto" useGeneratedKeys="true" keyProperty="h_p_num">
-        insert into h_product (h_p_name, h_p_category, h_p_price, h_p_quantity, h_p_desc, h_p_date)
-        values (#{h_p_name}, #{h_p_category}, #{h_p_price}, #{h_p_quantity}, #{h_p_desc}, default)
+        insert into h_product (h_p_name, h_p_category, h_p_price, h_p_quantity, h_p_desc, h_p_date, h_p_enddate)
+        values (#{h_p_name}, #{h_p_category}, #{h_p_price}, #{h_p_quantity}, #{h_p_desc}, default, #{h_p_enddate})
         <selectKey keyProperty="h_p_num" resultType="Integer" order="AFTER">
             select last_insert_id()
         </selectKey>
@@ -22,7 +22,7 @@
     <!-- 상품 수정 -->
     <update id="updateItem">
         update h_product set h_p_name = #{h_p_name}, h_p_category = #{h_p_category}, h_p_price = #{h_p_price},
-        h_p_quantity = #{h_p_quantity}, h_p_desc = #{h_p_desc}, h_p_date = default
+        h_p_quantity = #{h_p_quantity}, h_p_desc = #{h_p_desc}, h_p_date = default, h_p_enddate = #{h_p_enddate}
         where h_p_num = #{h_p_num}
     </update>
     <!-- 목록 출력 -->
@@ -33,20 +33,24 @@
         <result property="h_p_price" column="h_p_price" />
         <result property="h_p_quantity" column="h_p_quantity" />
         <result property="h_p_desc" column="h_p_desc" />
+        <result property="h_p_enddate" column="h_p_enddate" />
+        <result property="h_p_enddateString" column="h_p_enddateString" />
         <collection property="ifList" javaType="ArrayList" ofType="InventoryFile">
             <result property="h_p_oriFileName" column="h_p_oriFileName" />
             <result property="h_p_sysFileName" column="h_p_sysfilename" />
         </collection>
     </resultMap>
     <select id="getInventoryList" parameterType="HashMap" resultMap="ifList" resultType="InventoryDto">
-        select h_p_num, h_p_name, h_p_price, h_p_desc, h_p_category, h_p_quantity,
+        select h_p_num, h_p_name, h_p_price, h_p_desc, h_p_category, h_p_quantity, h_p_enddate,
+        date_format(h_p_enddate,'%Y-%m-%d %H:%i') h_p_enddateString,
         h_p_orifilename, h_p_sysfilename
         from h_product left join h_p_image
         on h_p_num=h_p_pnum order by h_p_num desc
     </select>
     <!-- 관리자 페이지 보기 -->
     <select id="getAdmin" parameterType="HashMap" resultMap="ifList" resultType="InventoryDto">
-        select h_p_num, h_p_name, h_p_price, h_p_desc, h_p_category, h_p_quantity,
+        select h_p_num, h_p_name, h_p_price, h_p_desc, h_p_category, h_p_quantity, h_p_enddate,
+        date_format(h_p_enddate,'%Y-%m-%d %H:%i') h_p_enddateString,
         h_p_orifilename, h_p_sysfilename
         from h_product left join h_p_image
         on h_p_num=h_p_pnum order by h_p_num desc
@@ -62,7 +66,7 @@
     <!-- 관리자 상품 빠른 수정-->
     <update id="quickUpadate" parameterType="InventoryDto">
         update h_product set h_p_name = #{h_p_name}, h_p_category = #{h_p_category}, h_p_price = #{h_p_price},
-        h_p_quantity = #{h_p_quantity}, h_p_desc = #{h_p_desc}, h_p_date = default
+        h_p_quantity = #{h_p_quantity}, h_p_desc = #{h_p_desc}, h_p_date = default, h_p_enddate = #{h_p_enddate}
         where h_p_num = #{h_p_num}
     </update>
 </mapper>

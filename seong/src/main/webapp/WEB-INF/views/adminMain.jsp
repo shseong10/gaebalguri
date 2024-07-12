@@ -8,6 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
     <script>
         function modalView(e){
             let objNum = parseInt(e.name); //클릭한 대상의 id값(=상품번호)을 가져와서 저장
@@ -20,6 +23,7 @@
             const view_category = result.h_p_category;
             const view_name = result.h_p_name;
             const view_price = result.h_p_price;
+            const view_enddate = new Date(result.h_p_enddateString).toISOString().slice(0, 16);
             const view_quantity = result.h_p_quantity;
             const view_desc = result.h_p_desc;
 
@@ -28,6 +32,7 @@
             const modalViewCategory = document.getElementById('h_p_category');
             const modalViewh_p_name = document.getElementById('h_p_name');
             const modalViewPrice = document.getElementById('h_p_price');
+            const modalViewEnddate = document.getElementById('h_p_enddate');
             const modalViewQty = document.getElementById('h_p_quantity');
             const modalViewDesc = document.getElementById('h_p_desc');
 
@@ -36,6 +41,7 @@
             modalViewCategory.setAttribute('value', view_category);
             modalViewh_p_name.setAttribute('value', view_name);
             modalViewPrice.setAttribute('value', view_price);
+            modalViewEnddate.setAttribute('value', view_enddate);
             modalViewQty.setAttribute('value', view_quantity);
             modalViewDesc.setAttribute('value', view_desc);
             modalViewDesc.textContent = view_desc;
@@ -43,6 +49,18 @@
             const modalViewImgFilename = result.ifList[0].h_p_sysFileName;
             const modalViewImg = document.getElementById('h_p_img');
             modalViewImg.setAttribute('src', '/upload/' + modalViewImgFilename);
+
+            const myInput = document.querySelector(".myInput");
+            const fp = flatpickr(myInput, {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                "locale": "ko",
+                defaultDate: result.h_p_enddateString
+            });
+            fp.config.onChange.push(function (selectedDates, dateStr, fp) {
+                const isoDatetime = new Date(dateStr).toISOString().slice(0, 16); // 초 단위는 생략
+                document.getElementById('h_p_enddate').value = isoDatetime;
+            })
         }
 
         function quickUpdate(){
@@ -50,6 +68,7 @@
             const UpdateCategory = document.getElementById('h_p_category');
             const Updateh_p_name = document.getElementById('h_p_name');
             const UpdatePrice = document.getElementById('h_p_price');
+            const UpdateEnddate = document.getElementById('h_p_enddate');
             const UpdateQty = document.getElementById('h_p_quantity');
             const UpdateDesc = document.getElementById('h_p_desc');
 
@@ -57,6 +76,7 @@
             let inputCategory = UpdateCategory.value;
             let inputName = Updateh_p_name.value;
             let inputPrice = UpdatePrice.value;
+            let inputEnddate = UpdateEnddate.value;
             let inputQty = UpdateQty.value;
             let inputDesc = UpdateDesc.value;
 
@@ -66,6 +86,7 @@
             reqJson.h_p_category = inputCategory;
             reqJson.h_p_name = inputName;
             reqJson.h_p_price = inputPrice;
+            reqJson.h_p_enddate = inputEnddate;
             reqJson.h_p_quantity = inputQty;
             reqJson.h_p_desc = inputDesc;
 
@@ -78,19 +99,31 @@
                         console.log('모달창 내용 업데이트')
                         console.log(update_result);
 
+                        const enddate = new Date(update_result.h_p_enddate)
+
+                        const yyyy = enddate.getFullYear()
+                        const mm = enddate.getMonth() + 1 // getMonth() is zero-based
+                        const dd = enddate.getDate()
+                        const hh = enddate.getHours()
+                        const ii = enddate.getMinutes()
+
                         const h_p_category = update_result.h_p_category;
                         const h_p_name = update_result.h_p_name;
                         const h_p_price = update_result.h_p_price;
+                        const h_p_enddate = yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + ii
                         const h_p_quantity = update_result.h_p_quantity;
                         // const h_p_desc = update_result.h_p_desc;
+
 
                         const listName = document.getElementById(inputNum+'_name');
                         const listCategory = document.getElementById(inputNum+'_category');
                         const listPrice = document.getElementById(inputNum+'_price');
+                        const listEnddate = document.getElementById(inputNum+'_enddate');
                         const listQuantity = document.getElementById(inputNum+'_quantity');
                         listName.textContent = h_p_name;
                         listCategory.textContent = h_p_category;
                         listPrice.textContent = h_p_price;
+                        listEnddate.textContent = h_p_enddate;
                         listQuantity.textContent = h_p_quantity;
                     }
                 }
@@ -137,8 +170,8 @@
                         <td id="${item.h_p_num}_quantity">
                             ${item.h_p_quantity}
                         </td>
-                        <td>
-                            판매기간
+                        <td id="${item.h_p_num}_enddate">
+                            ${item.h_p_enddateString}
                         </td>
                         <td>
                             구매제한
@@ -176,6 +209,8 @@
                                     <p class="card-text text-body-secondary">상품명 <input type="text" class="form-control" id="h_p_name" name="h_p_name" value="상품명"></p>
                                     <p class="card-text text-body-secondary">가격 <input type="text" class="form-control" id="h_p_price" name="h_p_price" value="가격"></p>
                                     <p class="card-text text-body-secondary">재고 <input type="text" class="form-control" id="h_p_quantity" name="h_p_quantity" value="재고"></p>
+                                    <p class="card-text text-body-secondary">판매기간 <input type="datetime-local" class="form-control myInput mt-1" placeholder="날짜를 선택하세요." readonly="readonly">
+                                                                                    <input type="text" name="h_p_enddate" id="h_p_enddate" value="날짜" hidden="hidden"></p>
                                     <p class="card-text text-body-secondary">설명 <textarea class="form-control" id="h_p_desc" name="h_p_desc" style="height: 10rem"></textarea></p>
                                     </form>
                                 </div>

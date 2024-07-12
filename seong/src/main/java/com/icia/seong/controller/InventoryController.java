@@ -128,10 +128,10 @@ public class InventoryController {
         }
         boolean result = iSer.updateItem(inventory, session);
         if (result) {
-            rttr.addFlashAttribute("msg", "상품 업로드 성공");
+            rttr.addFlashAttribute("msg", "상품 수정 성공");
             return "redirect:/list";
         } else {
-            rttr.addFlashAttribute("msg", "상품 업로드 실패");
+            rttr.addFlashAttribute("msg", "상품 수정 실패");
             return "redirect:/update_Item";
         }
     }
@@ -200,6 +200,7 @@ public class InventoryController {
     public String getAdmin(Model model, HttpSession session) throws JsonProcessingException {
         List<InventoryDto> iList = iSer.getInventoryList();
         if (iList != null) {
+            System.out.println("관리자페이지 테이블 출력==================");
             System.out.println("iList:" + iList);
             model.addAttribute("json", new ObjectMapper().writeValueAsString(iList));
             model.addAttribute("iList", iList);
