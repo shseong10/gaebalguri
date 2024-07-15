@@ -26,6 +26,7 @@ public class InventoryDto {
     private int h_p_price;
     private int h_p_quantity;
     private String h_p_desc;
+    private int h_p_buylevel;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)

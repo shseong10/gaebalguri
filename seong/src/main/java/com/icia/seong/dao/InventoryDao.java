@@ -2,6 +2,7 @@ package com.icia.seong.dao;
 
 import com.icia.seong.dto.CategoryDto;
 import com.icia.seong.dto.InventoryDto;
+import com.icia.seong.dto.SearchDto;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -17,7 +18,7 @@ public interface InventoryDao {
 
     boolean addItemSelectKey(InventoryDto inventory);
 
-    List<InventoryDto> getInventoryList();
+    List<InventoryDto> getInventoryList(Map<String, Integer> pageMap);
 
     List<InventoryDto> getAdmin();
 
@@ -43,4 +44,8 @@ public interface InventoryDao {
     boolean quickUpdate(InventoryDto inventory);
 
     List<InventoryDto> getQuickView(Integer h_p_num);
+
+    int getInventoryCount(SearchDto sDto);
+
+    List<InventoryDto> getInventoryListSearch(SearchDto sDto);
 }

@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
 import java.io.IOException;
@@ -78,5 +79,38 @@ public class FileManager {
                 log.info("이미 삭제된 파일입니다.");
             }
         }
+    }
+
+    public Map<String, Object> editorFileUpload (MultipartHttpServletRequest request, HttpSession session) {
+        //반환할 URL을 저장하는 변수 생성
+        Map<String, Object> map = new HashMap<>();
+
+        //첨부파일 경로 조회
+        String realPath = session.getServletContext().getRealPath("/");
+        realPath += "upload/admin/";
+
+        //첨부파일을 저장할 폴더가 없다면 생성
+        File dir = new File(realPath);
+        if (dir.isDirectory() == false) {
+            dir.mkdir();
+        }
+
+        //이미지 정보 받아오기
+        MultipartFile uploadFile = request.getFile("upload");
+
+        //파일 이름 재설정
+        String oriFileName = uploadFile.getOriginalFilename();
+        String sysFileName = System.currentTimeMillis() + "."
+                + oriFileName.substring(oriFileName.lastIndexOf(".") + 1);
+
+        File file = new File(realPath + sysFileName);
+
+        try {
+            uploadFile.transferTo(file);
+            map.put("url", "/upload/admin/" + sysFileName);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return map;
     }
 }

@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
+    <link rel="stylesheet" href="/api/ckeditor5/style.css">
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.css">
     <script>
         window.onload = function () {
             const enddate = "${inventory.h_p_enddateString}";
@@ -27,7 +29,12 @@
                 document.getElementById('h_p_enddate').value = isoDatetime;
             })
 
-            document.querySelector('#h_p_category option[value=' + '${inventory.h_p_category}' + ']').setAttribute('selected', true)
+            //저장된 카테고리 가져오기
+            const savedCategory = '${inventory.h_p_category}';
+            const selectCategory = document.querySelector('select[name=h_p_category]').options;
+            for (let i = 0; i < selectCategory.length; i++) {
+                if (selectCategory[i].value == savedCategory) selectCategory[i].selected = true;
+            }
 
             const fileElem = document.getElementById('attachments')
             fileElem.addEventListener('change', imgCreate, false);
@@ -41,6 +48,26 @@
                     preview.style.width = '100%';
                 }
             }
+
+            //판매기간 체크
+            if (enddate != '') {
+                document.getElementById('radioDate1').checked = false;
+                document.getElementById('radioDate2').checked = true;
+            } else {
+                document.getElementById('radioDate1').checked = true;
+                document.getElementById('radioDate2').checked = false;
+            }
+
+            //구매제한 체크
+            const buylevel = "${inventory.h_p_buylevel}";
+            if (buylevel != 0) {
+                document.getElementById('radioMem1').checked = false;
+                document.getElementById('radioMem2').checked = true;
+            } else {
+                document.getElementById('radioMem1').checked = true;
+                document.getElementById('radioMem2').checked = false;
+            }
+
         }
 
         function upload(){
@@ -49,7 +76,7 @@
     </script>
 </head>
 <body>
-<form action="/list/update_item" method="post" enctype="multipart/form-data">
+<form action="/update_item" method="post" enctype="multipart/form-data">
     <div class="card mb-3 p-3 w-75 mx-auto">
         <div class="p-3">
             <div class="row row-cols-2">
@@ -127,7 +154,7 @@
                                                     구매 가능 레벨
                                                 </div>
                                                 <div class="col-auto p-0">
-                                                    <input type="text" class="form-control" size="1em" id="inputUserLevel">
+                                                    <input type="text" class="form-control" size="1em" id="h_p_buylevel" name="h_p_buylevel" value="${inventory.h_p_buylevel}">
                                                 </div>
                                                 <div class="col-auto">
                                                     부터
@@ -141,7 +168,11 @@
                     </div><!-- 상품정보 input 좌우정렬 -->
                     <div>
                         <label for="formGroupExampleInput" class="form-label">상품설명</label>
-                        <textarea class="form-control" id="h_p_desc" name="h_p_desc" style="height: 10rem" value="${inventory.h_p_desc}">${inventory.h_p_desc}</textarea>
+                        <div class="main-container">
+                            <div class="editor-container editor-container_classic-editor" id="editor-container">
+                                <div class="editor-container__editor"><textarea id="h_p_desc" name="h_p_desc">${inventory.h_p_desc}</textarea></div>
+                            </div>
+                        </div>
                     </div>
                 </div><!-- 상품정보 랩핑 끝-->
             </div><!-- 상품이미지/상품정보 좌우정렬 -->
@@ -151,6 +182,16 @@
     <div class="d-grid gap-2 w-75 mb-3 mx-auto">
         <input type="submit" class="btn btn-primary" value="등록하기">
     </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.js",
+                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.1/"
+            }
+        }
+    </script>
+    <script type="module" src="/api/ckeditor5/main.js"></script>
 </form>
 </body>
 </html>

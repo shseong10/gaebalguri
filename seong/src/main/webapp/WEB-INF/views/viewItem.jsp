@@ -66,6 +66,11 @@
             formObj.submit();
         }
     </script>
+    <style>
+        .text-body-secondary img {
+            max-width: 100% !important;
+        }
+    </style>
 </head>
 <body>
     <div class="card mb-3 w-75 mx-auto">
@@ -83,8 +88,8 @@
                         <a href="javascript: view_cart();" class="btn btn-primary" role="button">장바구니</a>
                         <a href="javascript: view_order();" class="btn btn-primary" role="button">주문하기</a>
                     </div>
-                    <a href="/list/update_item?h_p_num=${inventory.h_p_num}" class="btn btn-warning" role="button">수정</a>
-                    <a href="/list/delete_item?h_p_num=${inventory.h_p_num}" class="btn btn-danger" role="button">삭제</a>
+                    <a href="/update_item?h_p_num=${inventory.h_p_num}" class="btn btn-warning" role="button">수정</a>
+                    <a href="/delete_item?h_p_num=${inventory.h_p_num}" class="btn btn-danger" role="button">삭제</a>
             </div>
             </div>
         </div>

@@ -2,10 +2,8 @@ package com.icia.seong.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.icia.seong.dto.CartDto;
-import com.icia.seong.dto.CategoryDto;
-import com.icia.seong.dto.InventoryDto;
-import com.icia.seong.dto.OrderDto;
+import com.icia.seong.common.FileManager;
+import com.icia.seong.dto.*;
 import com.icia.seong.exception.DBException;
 import com.icia.seong.service.CartService;
 import com.icia.seong.service.InventoryService;
@@ -15,15 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -37,8 +34,11 @@ public class InventoryController {
     @Autowired
     private CartService cSer;
 
+    @Autowired
+    private FileManager fm;
+
     //상품 업로드
-    @GetMapping("/list/add_item")
+    @GetMapping("/add_item")
     public String addItem(Model model) {
         log.info("상품 업로드 페이지로 이동");
         List<CategoryDto> cList = iSer.getCategoryList();
@@ -49,7 +49,7 @@ public class InventoryController {
         return "addItem";
     }
 
-    @PostMapping("/list/add_item")
+    @PostMapping("/add_item")
     public String addItem(InventoryDto inventory, HttpSession session, RedirectAttributes rttr) {
         log.info("상품 업로드");
         log.info(">>>>상품: {}", inventory);
@@ -69,10 +69,25 @@ public class InventoryController {
 
     //상품 목록
     @GetMapping("/list")
-    public String inventoryList(Model model, HttpSession session) throws JsonProcessingException {
-        List<InventoryDto> iList = iSer.getInventoryList();
+    public String inventoryList(SearchDto sDto, Model model, HttpSession session) throws JsonProcessingException {
+        if (sDto.getPageNum() == null) {
+            sDto.setPageNum(1);
+        }
+        if (sDto.getListCnt() == null) {
+            sDto.setListCnt(iSer.LISTCNT);
+        }
+        if (sDto.getStartIdx() == null) {
+            sDto.setStartIdx(0);
+        }
+        List<InventoryDto> iList = null;
+        if(sDto.getColName() == null || sDto.getColName().equals("")) {
+			iList = iSer.getInventoryList(sDto.getPageNum());
+		}else {
+            iList = iSer.getInventoryListSearch(sDto);
+		}
         if (iList != null) {
             System.out.println("iList:" + iList);
+            String pageHtml = iSer.getPaing(sDto);
             model.addAttribute("iList", iList);
             return "itemList";
         } else {
@@ -100,7 +115,7 @@ public class InventoryController {
     }
 
     //상품 수정하기
-    @GetMapping("/list/update_item")
+    @GetMapping("/update_item")
     public String updateItem(@RequestParam("h_p_num") Integer h_p_num, Model model) throws JsonProcessingException {
         log.info("{}번째 상품 수정 페이지로 이동", h_p_num);
         InventoryDto inventory = iSer.getInventoryDetail(h_p_num);
@@ -118,7 +133,7 @@ public class InventoryController {
         }
     }
 
-    @PostMapping("/list/update_item")
+    @PostMapping("/update_item")
     public String updateItem(InventoryDto inventory, HttpSession session, RedirectAttributes rttr) {
         log.info("상품 수정");
         log.info(">>>>상품: {}", inventory);
@@ -132,12 +147,12 @@ public class InventoryController {
             return "redirect:/list";
         } else {
             rttr.addFlashAttribute("msg", "상품 수정 실패");
-            return "redirect:/list/update_Item";
+            return "redirect:/update_Item";
         }
     }
 
     //상품 삭제하기 *이미 주문되었거나 장바구니에 담긴 상품은 삭제 불가.
-    @GetMapping("/list/delete_item")
+    @GetMapping("/delete_item")
     public String deleteItem(@RequestParam("h_p_num") Integer h_p_num, HttpSession session, RedirectAttributes rttr) {
         log.info(">>>>>삭제 대상 글번호: {}", h_p_num);
 
@@ -197,13 +212,28 @@ public class InventoryController {
 
     //관리자페이지
     @GetMapping("/admin/main")
-    public String getAdmin(Model model, HttpSession session) throws JsonProcessingException {
+    public String getAdmin(SearchDto sDto, Model model, HttpSession session) throws JsonProcessingException {
+        // 기본값 설정
+        if (sDto.getPageNum() == null) {
+            sDto.setPageNum(1);
+        }
+        if (sDto.getListCnt() == null) {
+            sDto.setListCnt(InventoryService.LISTCNT);
+        }
+        if (sDto.getStartIdx() == null) {
+            sDto.setStartIdx(0);
+        }
         List<CategoryDto> cList = iSer.getCategoryList();
         if (cList != null) {
             System.out.println("cList:" + cList);
             model.addAttribute("cList", cList);
         }
-        List<InventoryDto> iList = iSer.getInventoryList();
+        List<InventoryDto> iList = null;
+        if(sDto.getColName() == null || sDto.getColName().equals("")) {
+            iList = iSer.getInventoryList(sDto.getPageNum());
+        }else {
+            iList = iSer.getInventoryListSearch(sDto);
+        }
         if (iList != null) {
             System.out.println("관리자페이지 테이블 출력==================");
             System.out.println("iList:" + iList);
@@ -213,5 +243,12 @@ public class InventoryController {
         } else {
             return "redirect:/list";
         }
+    }
+
+    @ResponseBody
+    @PostMapping("/admin/upload")
+    public Map<String, Object> editorFileUpload(MultipartHttpServletRequest request, HttpSession session) {
+        Map<String, Object> uploadedImg = fm.editorFileUpload(request, session);
+        return uploadedImg;
     }
 }

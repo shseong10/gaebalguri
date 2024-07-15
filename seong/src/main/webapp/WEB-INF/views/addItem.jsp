@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
+    <link rel="stylesheet" href="/api/ckeditor5/style.css">
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.css">
     <script>
         window.onload = function () {
             const myInput = document.querySelector(".myInput");
@@ -47,7 +49,7 @@
     </script>
 </head>
 <body>
-<form action="/list/add_item" method="post" enctype="multipart/form-data">
+<form action="/add_item" method="post" enctype="multipart/form-data">
     <div class="card mb-3 p-3 w-75 mx-auto">
         <div class="p-3">
             <div class="row row-cols-2">
@@ -125,7 +127,7 @@
                                                     구매 가능 레벨
                                                 </div>
                                                 <div class="col-auto p-0">
-                                                    <input type="text" class="form-control" size="1em" id="inputUserLevel">
+                                                    <input type="text" class="form-control" size="1em" id="h_p_buylevel" name="h_p_buylevel" value="0">
                                                 </div>
                                                 <div class="col-auto">
                                                     부터
@@ -139,7 +141,11 @@
                     </div>
                     <div>
                         <label for="formGroupExampleInput" class="form-label">상품설명</label>
-                        <textarea class="form-control" id="h_p_desc" name="h_p_desc" style="height: 10rem" value="시원함">시원함</textarea>
+                        <div class="main-container">
+                            <div class="editor-container editor-container_classic-editor" id="editor-container">
+                                <div class="editor-container__editor"><textarea id="h_p_desc" name="h_p_desc"></textarea></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -148,6 +154,15 @@
     <div class="d-grid gap-2 w-75 mb-3 mx-auto">
         <input type="submit" class="btn btn-primary" value="등록하기">
     </div>
+    <script type="importmap">
+        {
+            "imports": {
+                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.js",
+                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.1/"
+            }
+        }
+    </script>
+    <script type="module" src="/api/ckeditor5/main.js"></script>
 </form>
 </body>
 </html>

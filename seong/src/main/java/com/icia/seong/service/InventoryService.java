@@ -1,9 +1,11 @@
 package com.icia.seong.service;
 
 import com.icia.seong.common.FileManager;
+import com.icia.seong.common.Paging;
 import com.icia.seong.dao.InventoryDao;
 import com.icia.seong.dto.CategoryDto;
 import com.icia.seong.dto.InventoryDto;
+import com.icia.seong.dto.SearchDto;
 import com.icia.seong.exception.DBException;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -22,15 +26,18 @@ public class InventoryService {
     @Autowired
     private FileManager fm;
 
+    public static final int LISTCNT=10; //페이지당 10개
+    public static final int PAGECOUNT=2; //페이지 그룹   이전 [3]  [4] 다음
+
     //상품 리스트 가져오기
-    public List<InventoryDto> getInventoryList() {
-        List<InventoryDto> iList = null;
-        iList = iDao.getInventoryList();
-        if(iList != null) {
-            return iList;
-        } else  {
-            return null;
-        }
+    public List<InventoryDto> getInventoryList(Integer pageNum) {
+        int startIdx =(pageNum-1)*LISTCNT;
+        Map<String, Integer> pageMap=new HashMap<>();
+        pageMap.put("startIdx", startIdx);
+        pageMap.put("listCnt", LISTCNT);
+
+        List<InventoryDto> iList = iDao.getInventoryList(pageMap);
+        return iList;
     }
 
     //상품 카테고리 가져오기
@@ -106,20 +113,20 @@ public class InventoryService {
 
     //관리자페이지
     //상품 리스트 가져오기
-    public List<InventoryDto> getAdmin() {
-        List<InventoryDto> iList = null;
-        iList = iDao.getInventoryList();
-        if(iList != null) {
-            return iList;
-        } else  {
-            return null;
-        }
+    public List<InventoryDto> getAdmin(Integer pageNum) {
+        int startIdx =(pageNum-1)*LISTCNT;
+        Map<String, Integer> pageMap=new HashMap<>();
+        pageMap.put("startIdx", startIdx);
+        pageMap.put("listCnt", LISTCNT);
+
+        List<InventoryDto> iList = iDao.getInventoryList(pageMap);
+        return iList;
     }
 
     public List<InventoryDto> quickUpdate(InventoryDto inventory) {
         List<InventoryDto> iList = null;
         if(iDao.quickUpdate(inventory)) {
-            iList = iDao.getInventoryList();
+//            iList = iDao.getInventoryList();
             log.info("빠른 수정 저장 성공");
         }
         return iList;
@@ -133,5 +140,27 @@ public class InventoryService {
         } else {
             return null;
         }
+    }
+
+    public String getPaing(SearchDto sDto) {
+        int totalNum=iDao.getInventoryCount(sDto); //전체 글의 갯수, 키워드 있거나 없거나
+        log.info(">>>>>>totalNum:{}",totalNum);
+        String listUrl=null;
+        if(sDto.getColName()!=null) {
+            listUrl="/board/list?colName="+sDto.getColName()+"&keyword="+sDto.getKeyword()
+                    + "&"; // board/list?colName=b_title&keyword=3&
+        }else {
+            listUrl = "/board/list?";
+        }
+        Paging paging=new Paging(totalNum,sDto.getPageNum(),sDto.getListCnt(),PAGECOUNT,listUrl);
+        return paging.makeHtmlPaging();
+    }
+
+    public List<InventoryDto> getInventoryListSearch(SearchDto sDto) {
+        int pageNum= sDto.getPageNum();
+        //limit  1page: idx(0)~,  2page: idx(10)~
+        sDto.setStartIdx((pageNum-1)*sDto.getListCnt());
+        List<InventoryDto> iList = iDao.getInventoryListSearch(sDto);
+        return iList;
     }
 }

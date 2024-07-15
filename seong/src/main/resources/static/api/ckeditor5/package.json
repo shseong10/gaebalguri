@@ -1,0 +1,12 @@
+{
+	"name": "ckeditor5-vanilla.js",
+	"version": "0.0.1",
+	"scripts": {
+		"start": "vite"
+	},
+	"devDependencies": {
+		"vite": "^5",
+		"ckeditor5": "42.0.1",
+		"ckeditor5-premium-features": "42.0.1"
+	}
+}
