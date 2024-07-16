@@ -33,7 +33,8 @@
                         const modalViewEnddate = document.getElementById('h_p_enddate');
                         const modalViewBuylevel = document.getElementById('h_p_buylevel');
                         const modalViewQty = document.getElementById('h_p_quantity');
-                        const modalViewDesc = document.getElementById('h_p_desc');
+                        const modalViewDesc = document.getElementById('h_p_desc_hidden');
+
 
                         modalViewTitle.textContent = result[0].h_p_name;
                         modalViewNum.setAttribute('value', result[0].h_p_num);
@@ -43,6 +44,15 @@
                         modalViewBuylevel.setAttribute('value', result[0].h_p_buylevel);
                         modalViewQty.setAttribute('value', result[0].h_p_quantity);
                         modalViewDesc.innerHTML = result[0].h_p_desc;
+
+                        // const modalViewEditor = document.createElement('script');
+                        // modalViewEditor.setAttribute('type', 'module');
+                        // modalViewEditor.setAttribute('src', '/api/ckeditor5/main.js');
+                        // modalViewEditor.setAttribute('id', 'modalViewEditor');
+                        // document.body.appendChild(modalViewEditor)
+
+                        //비동기 데이터가 전부 로드되면 숨겨진 div에 클릭이벤트를 실행해서 api를 건드리게함(ㅠㅠ)
+                        modalViewDesc.click();
 
                         //저장된 이미지 가져오기
                         const modalViewImgFilename = result[0].ifList[0].h_p_sysFileName;
@@ -95,7 +105,7 @@
             }
             httpRequest.open('GET', '/admin/quickview?h_p_num='+objNum , true);
             httpRequest.send();
-        }
+        }//modalView(e) end
 
         function quickUpdate(){
             const UpdateNum = document.getElementById('h_p_num');
@@ -174,6 +184,11 @@
             httpRequest.responseType = 'json';
             httpRequest.setRequestHeader('Content-Type', 'application/json');
             httpRequest.send(JSON.stringify(reqJson));
+        }
+
+        function resetEditor(){
+            const modalViewEditor = document.getElementById('modalViewEditor');
+            modalViewEditor.remove()
         }
     </script>
 </head>
@@ -327,13 +342,12 @@
                                     </div><!-- 구매제한 랩핑 끝-->
                                 </div><!-- 상품정보 input 좌우정렬 -->
                                 <div>
-                                    <label for="formGroupExampleInput" class="form-label">상품설명</label>
+                                    <label class="form-label">상품설명</label>
                                     <div class="main-container">
                                         <div class="editor-container editor-container_classic-editor" id="editor-container">
                                             <div class="editor-container__editor">
-                                                <textarea id="h_p_desc" name="h_p_desc">
-
-                                                </textarea>
+                                                <textarea id="h_p_desc" name="h_p_desc"></textarea>
+                                                <div id="h_p_desc_hidden" style="display: none">desc</div>
                                             </div>
                                         </div>
                                     </div>
@@ -349,15 +363,15 @@
                 </div>
             </div>
         </div>
-    </div>
-    <script type="importmap">
-        {
-            "imports": {
-                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.js",
-                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.1/"
+        <script type="importmap">
+            {
+                "imports": {
+                    "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.js",
+                    "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.1/"
+                }
             }
-        }
-    </script>
-    <script type="module" src="/api/ckeditor5/main.js"></script>
+        </script>
+        <script type="module" src="/api/ckeditor5/main.js"></script>
+    </div>
 </body>
 </html>

@@ -89,6 +89,16 @@ public class InventoryController {
             System.out.println("iList:" + iList);
             String pageHtml = iSer.getPaing(sDto);
             model.addAttribute("iList", iList);
+            model.addAttribute("paging", pageHtml);
+
+            if (sDto.getColName() != null) { // 검색어 있을때
+                session.setAttribute("sDto", sDto);
+            } else {
+                session.setAttribute("pageNum", sDto.getPageNum());
+                // 검색이 아닐때는 session에서 sDto 삭제
+                session.removeAttribute("sDto");
+            }
+
             return "itemList";
         } else {
             return "redirect:/";
@@ -168,13 +178,13 @@ public class InventoryController {
     }
 
     //구매하기
-    @GetMapping("/list/buy_item")
+    @GetMapping("/buy_item")
     public String buyItem() {
         log.info("상품 구매 페이지로 이동");
         return "buyItem";
     }
     
-    @PostMapping("/list/buy_item")
+    @PostMapping("/buy_item")
     public String buyItem(OrderDto order, HttpSession session, RedirectAttributes rttr) {
         log.info("상품 주문");
         log.info("주문 옵션: {}", order);
@@ -189,13 +199,13 @@ public class InventoryController {
     }
 
     //장바구니
-    @GetMapping("/list/take_item")
+    @GetMapping("/take_item")
     public String takeItem() {
         log.info("상품을 장바구니에 저장");
         return "takeItem";
     }
 
-    @PostMapping("/list/take_item")
+    @PostMapping("/take_item")
     public String takeItem(CartDto cart, HttpSession session, RedirectAttributes rttr) {
         log.info("상품을 장바구니에 저장");
         log.info("주문 옵션: {}", cart);
@@ -237,8 +247,10 @@ public class InventoryController {
         if (iList != null) {
             System.out.println("관리자페이지 테이블 출력==================");
             System.out.println("iList:" + iList);
+            String pageHtml = iSer.getPaing(sDto);
             model.addAttribute("json", new ObjectMapper().writeValueAsString(iList));
             model.addAttribute("iList", iList);
+            model.addAttribute("paging", pageHtml);
             return "adminMain";
         } else {
             return "redirect:/list";

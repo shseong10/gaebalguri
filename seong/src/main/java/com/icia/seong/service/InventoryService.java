@@ -147,10 +147,10 @@ public class InventoryService {
         log.info(">>>>>>totalNum:{}",totalNum);
         String listUrl=null;
         if(sDto.getColName()!=null) {
-            listUrl="/board/list?colName="+sDto.getColName()+"&keyword="+sDto.getKeyword()
+            listUrl="/admin/main?colName="+sDto.getColName()+"&keyword="+sDto.getKeyword()
                     + "&"; // board/list?colName=b_title&keyword=3&
         }else {
-            listUrl = "/board/list?";
+            listUrl = "/admin/main?";
         }
         Paging paging=new Paging(totalNum,sDto.getPageNum(),sDto.getListCnt(),PAGECOUNT,listUrl);
         return paging.makeHtmlPaging();

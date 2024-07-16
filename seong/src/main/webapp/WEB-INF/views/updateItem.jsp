@@ -36,14 +36,16 @@
                 if (selectCategory[i].value == savedCategory) selectCategory[i].selected = true;
             }
 
+            //파일업로드 HTML요소 지정
             const fileElem = document.getElementById('attachments')
             fileElem.addEventListener('change', imgCreate, false);
 
+            //파일업로드 내용이 바뀌면 다음 메소드를 실행
             function imgCreate() {
-                const curFiles = fileElem.files;
-                const preview = document.getElementById('preview');
+                const curFiles = fileElem.files; //파일업로드 요소의 파일 이름
+                const preview = document.getElementById('preview'); //이미지 미리보기가 표시될 img요소 아이디 (예시:<img src="#" id="preview">)
                 for (const file of curFiles) {
-                    const img = URL.createObjectURL(file);
+                    const img = URL.createObjectURL(file); //이미지 url 생성
                     preview.src = img;
                     preview.style.width = '100%';
                 }

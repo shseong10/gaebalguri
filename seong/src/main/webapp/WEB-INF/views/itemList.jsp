@@ -12,6 +12,10 @@
         .text-body-secondary img {
             display: none !important;
         }
+
+        .img-fluid {
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -22,7 +26,7 @@
 <div class="row row-cols-1 row-cols-md-2 g-4 w-75 mx-auto">
     <c:forEach var="item" items="${iList}">
         <div class="col">
-            <div class="card mb-3">
+            <div class="card mb-3 h-100">
                 <div class="row g-0">
                     <div class="col-md-4">
                         <img src="/upload/${item.ifList[0].h_p_sysFileName}" class="img-fluid rounded-start">
@@ -40,5 +44,6 @@
         </div>
     </c:forEach>
 </div>
+<div class="paging">${paging}</div>
 </body>
 </html>

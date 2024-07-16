@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tags.shaded.org.apache.xpath.operations.Mult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -29,10 +30,11 @@ public class InventoryRestController {
     }
 
     @GetMapping("/admin/quickview")
-    public List<InventoryDto> getQuickView(@RequestParam("h_p_num") Integer h_p_num) {
+    public List<InventoryDto> getQuickView(@RequestParam("h_p_num") Integer h_p_num, Model model) {
         log.info("<<<<<<<h_p_num=" + h_p_num);
         List<InventoryDto> quickView = iSer.getQuickView(h_p_num);
         log.info("<<<<<<<<InventoryDto: {}", quickView);
+        model.addAttribute("quickView", quickView);
         return quickView;
     }
 

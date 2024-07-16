@@ -339,7 +339,24 @@ const editorConfig = {
 	table: {
 		contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
 	},
-	translations: [translations]
+	translations: [translations],
+	updateSourceElementOnDestroy: true
 };
 
-ClassicEditor.create(document.querySelector('#h_p_desc'), editorConfig);
+let editor;
+
+ClassicEditor.create(document.querySelector('#h_p_desc'), editorConfig)
+	.then( newEditor => {
+		editor = newEditor;
+	} )
+	.catch( error => {
+		console.error( error );
+	} );
+
+//관리자페이지에서 비동기로 데이터를 가져올때에 사용
+const modalViewDesc = document.getElementById('h_p_desc_hidden');
+modalViewDesc.addEventListener('click', () => {
+	const savedData = document.getElementById('h_p_desc_hidden').innerHTML;
+	console.log('savedData: ' + savedData);
+	editor.setData(savedData);
+})
