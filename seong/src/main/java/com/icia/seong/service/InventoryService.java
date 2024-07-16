@@ -146,9 +146,9 @@ public class InventoryService {
         int totalNum=iDao.getInventoryCount(sDto); //전체 글의 갯수, 키워드 있거나 없거나
         log.info(">>>>>>totalNum:{}",totalNum);
         String listUrl=null;
-        if(sDto.getColName()!=null) {
-            listUrl="/admin/main?colName="+sDto.getColName()+"&keyword="+sDto.getKeyword()
-                    + "&"; // board/list?colName=b_title&keyword=3&
+        if(sDto.getKeyword()!=null) {
+            listUrl="/admin/main?keyword="+sDto.getKeyword()
+                    + "&";
         }else {
             listUrl = "/admin/main?";
         }

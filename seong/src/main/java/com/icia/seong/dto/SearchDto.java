@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SearchDto {
-    private String colName;
+//    private String colName;
     private String keyword;
     private Integer pageNum;
     private Integer listCnt;  //10, 페이지당 글의갯수

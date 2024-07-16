@@ -45,12 +45,6 @@
                         modalViewQty.setAttribute('value', result[0].h_p_quantity);
                         modalViewDesc.innerHTML = result[0].h_p_desc;
 
-                        // const modalViewEditor = document.createElement('script');
-                        // modalViewEditor.setAttribute('type', 'module');
-                        // modalViewEditor.setAttribute('src', '/api/ckeditor5/main.js');
-                        // modalViewEditor.setAttribute('id', 'modalViewEditor');
-                        // document.body.appendChild(modalViewEditor)
-
                         //비동기 데이터가 전부 로드되면 숨겨진 div에 클릭이벤트를 실행해서 api를 건드리게함(ㅠㅠ)
                         modalViewDesc.click();
 
@@ -186,14 +180,28 @@
             httpRequest.send(JSON.stringify(reqJson));
         }
 
-        function resetEditor(){
-            const modalViewEditor = document.getElementById('modalViewEditor');
-            modalViewEditor.remove()
+        //검색
+        function search() {
+            let keyword = document.getElementById('keyword').value;
+            if (keyword === '') {
+                alert('검색어를 입력하세요.')
+                return;
+            }
+            location.href = '/admin/main?keyword='+keyword+'&pageNum=1'
         }
+
     </script>
 </head>
 <body>
-    <div class="card mb-3 w-75 mx-auto">
+<div class="w-75 mt-5 mx-auto">
+    <div class="d-flex mb-2">
+        <div class="p-2"><a href="/admin/main"><img src="/upload/logo.png" width="25%"></a></div>
+        <div class="d-flex ms-auto h-75">
+            <input type="text" id="keyword" class="form-control me-2" placeholder="검색하기" style="width: 10rem;">
+            <button type="button" id="search" onclick="search()" class="btn btn-primary"><i class="bi bi-search"></i></button>
+        </div>
+    </div>
+    <div class="card mb-3">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -241,137 +249,139 @@
             </tbody>
         </table>
     </div>
-    <div class="d-grid gap-2 w-75 mb-3 mx-auto">
+    <div class="d-grid gap-2 mb-3 mx-auto">
         <div class="paging">${paging}</div>
         <a href="/list/add_item" class="btn btn-primary" role="button">상품 등록 페이지를 열기</a>
         <a href="/list" class="btn btn-primary" role="button">판매 페이지로 돌아가기</a>
     </div>
-    <!-- Modal -->
-    <div class="modal fade modal-xl" id="modal_container" tabindex="-1" aria-labelledby="modal_containerLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modal_containerLabel"></h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="p-3">
-                        <div class="row row-cols-2">
-                            <div class="col-md-4">
-                                상품 이미지
-                                <img src="#" class="img-fluid rounded-start" alt="..." id="h_p_img">
-                                <input type="file" class="form-control" name="attachments" id="attachments" multiple>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="row row-cols-2 gy-3">
-                                    <div class="col-6">
-                                        <input type="hidden" id="h_p_num" name="h_p_num" value="#">
-                                        상품명
-                                        <input type="text" class="form-control" id="h_p_name" name="h_p_name">
-                                    </div>
-                                    <div class="col-6">
-                                        카테고리
-                                        <select id="h_p_category" name="h_p_category" class="form-select">
-                                            <option>카테고리 선택</option>
-                                            <c:forEach var="category" items="${cList}">
-                                                <option value="${category.c_name}">${category.c_name}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                    <div class="col-6">
-                                        가격
-                                        <input type="text" class="form-control" id="h_p_price" name="h_p_price">
-                                    </div>
-                                    <div class="col-6">
-                                        수량
-                                        <input type="text" class="form-control" id="h_p_quantity" name="h_p_quantity">
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="row row-cols-2 g-2">
-                                            <div class="col-3">
-                                                판매기간
-                                            </div>
-                                            <div class="col-9">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="radioDate" id="radioDate1" value="option1" checked>
-                                                    <label class="form-check-label" for="radioDate1">
-                                                        지정안함
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="radioDate" id="radioDate2" value="option2">
-                                                    <label class="form-check-label" for="radioDate2">
-                                                        지정일까지
-                                                    </label>
-                                                    <input type="datetime-local" class="form-control myInput mt-1" placeholder="날짜를 선택하세요." readonly="readonly">
-                                                    <input type="text" name="h_p_enddate" id="h_p_enddate" hidden="hidden">
-                                                </div>
-                                            </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade modal-xl" id="modal_container" tabindex="-1" aria-labelledby="modal_containerLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modal_containerLabel"></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="p-3">
+                    <div class="row row-cols-2">
+                        <div class="col-md-4">
+                            상품 이미지
+                            <img src="#" class="img-fluid rounded-start" alt="..." id="h_p_img">
+                            <input type="file" class="form-control" name="attachments" id="attachments" multiple>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row row-cols-2 gy-3">
+                                <div class="col-6">
+                                    <input type="hidden" id="h_p_num" name="h_p_num" value="#">
+                                    상품명
+                                    <input type="text" class="form-control" id="h_p_name" name="h_p_name">
+                                </div>
+                                <div class="col-6">
+                                    카테고리
+                                    <select id="h_p_category" name="h_p_category" class="form-select">
+                                        <option>카테고리 선택</option>
+                                        <c:forEach var="category" items="${cList}">
+                                            <option value="${category.c_name}">${category.c_name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    가격
+                                    <input type="text" class="form-control" id="h_p_price" name="h_p_price">
+                                </div>
+                                <div class="col-6">
+                                    수량
+                                    <input type="text" class="form-control" id="h_p_quantity" name="h_p_quantity">
+                                </div>
+                                <div class="col-6">
+                                    <div class="row row-cols-2 g-2">
+                                        <div class="col-3">
+                                            판매기간
                                         </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="row row-cols-2 g-2">
-                                            <div class="col-3">
-                                                구매제한
+                                        <div class="col-9">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="radioDate" id="radioDate1" value="option1" checked>
+                                                <label class="form-check-label" for="radioDate1">
+                                                    지정안함
+                                                </label>
                                             </div>
-                                            <div class="col-9">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="radioMem" id="radioMem1" value="option1" checked>
-                                                    <label class="form-check-label" for="radioMem1">
-                                                        모든 회원
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="radioMem" id="radioMem2" value="option2">
-                                                    <label class="form-check-label" for="radioMem2">
-                                                        <div class="row">
-                                                            <div class="col-auto">
-                                                                구매 가능 레벨
-                                                            </div>
-                                                            <div class="col-auto p-0">
-                                                                <input type="text" class="form-control" size="1em" id="h_p_buylevel" name="h_p_buylevel" value="${inventory.h_p_buylevel}">
-                                                            </div>
-                                                            <div class="col-auto">
-                                                                부터
-                                                            </div>
-                                                        </div>
-                                                    </label>
-                                                </div>
-                                            </div><!-- 구매제한 내용 오른쪽-->
-                                        </div><!-- 구매제한 내용 좌우정렬 -->
-                                    </div><!-- 구매제한 랩핑 끝-->
-                                </div><!-- 상품정보 input 좌우정렬 -->
-                                <div>
-                                    <label class="form-label">상품설명</label>
-                                    <div class="main-container">
-                                        <div class="editor-container editor-container_classic-editor" id="editor-container">
-                                            <div class="editor-container__editor">
-                                                <textarea id="h_p_desc" name="h_p_desc"></textarea>
-                                                <div id="h_p_desc_hidden" style="display: none">desc</div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="radioDate" id="radioDate2" value="option2">
+                                                <label class="form-check-label" for="radioDate2">
+                                                    지정일까지
+                                                </label>
+                                                <input type="datetime-local" class="form-control myInput mt-1" placeholder="날짜를 선택하세요." readonly="readonly">
+                                                <input type="text" name="h_p_enddate" id="h_p_enddate" hidden="hidden">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div><!-- 상품정보 랩핑 끝-->
-                        </div><!-- 상품이미지/상품정보 좌우정렬 -->
-                    </div><!-- 전체 내용 랩핑 끝 -->
-                </div>
-                <div class="modal-footer d-flex">
-                    <button type="button" class="btn btn-danger me-auto" data-bs-dismiss="modal">상품 삭제</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    <button type="button" class="btn btn-primary" onclick="quickUpdate()" data-bs-dismiss="modal">변경사항 저장</button>
-                </div>
+                                <div class="col-6">
+                                    <div class="row row-cols-2 g-2">
+                                        <div class="col-3">
+                                            구매제한
+                                        </div>
+                                        <div class="col-9">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="radioMem" id="radioMem1" value="option1" checked>
+                                                <label class="form-check-label" for="radioMem1">
+                                                    모든 회원
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="radioMem" id="radioMem2" value="option2">
+                                                <label class="form-check-label" for="radioMem2">
+                                                    <div class="row">
+                                                        <div class="col-auto">
+                                                            구매 가능 레벨
+                                                        </div>
+                                                        <div class="col-auto p-0">
+                                                            <input type="text" class="form-control" size="1em" id="h_p_buylevel" name="h_p_buylevel" value="${inventory.h_p_buylevel}">
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            부터
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div><!-- 구매제한 내용 오른쪽-->
+                                    </div><!-- 구매제한 내용 좌우정렬 -->
+                                </div><!-- 구매제한 랩핑 끝-->
+                            </div><!-- 상품정보 input 좌우정렬 -->
+                            <div>
+                                <label class="form-label">상품설명</label>
+                                <div class="main-container">
+                                    <div class="editor-container editor-container_classic-editor" id="editor-container">
+                                        <div class="editor-container__editor">
+                                            <textarea id="h_p_desc" name="h_p_desc"></textarea>
+                                            <div id="h_p_desc_hidden" style="display: none">desc</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- 상품정보 랩핑 끝-->
+                    </div><!-- 상품이미지/상품정보 좌우정렬 -->
+                </div><!-- 전체 내용 랩핑 끝 -->
+            </div>
+            <div class="modal-footer d-flex">
+                <button type="button" class="btn btn-danger me-auto" data-bs-dismiss="modal">상품 삭제</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary" onclick="quickUpdate()" data-bs-dismiss="modal">변경사항 저장</button>
             </div>
         </div>
-        <script type="importmap">
-            {
-                "imports": {
-                    "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.js",
-                    "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.1/"
-                }
-            }
-        </script>
-        <script type="module" src="/api/ckeditor5/main.js"></script>
     </div>
+    <script type="importmap">
+        {
+            "imports": {
+                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.js",
+                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.1/"
+            }
+        }
+    </script>
+    <script type="module" src="/api/ckeditor5/main.js"></script>
+</div>
 </body>
 </html>

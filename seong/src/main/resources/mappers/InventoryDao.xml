@@ -46,9 +46,22 @@
         date_format(h_p_enddate,'%Y-%m-%d %H:%i') h_p_enddateString,
         h_p_orifilename, h_p_sysfilename
         from h_product left join h_p_image
-        on h_p_num=h_p_pnum order by h_p_num desc
-        limit
-        #{startIdx}, #{listCnt}
+        on h_p_num=h_p_pnum
+        order by h_p_num desc
+        limit #{startIdx}, #{listCnt}
+    </select>
+    <select id="getInventoryListSearch" parameterType="HashMap" resultMap="ifList" resultType="InventoryDto">
+        select h_p_num, h_p_name, h_p_price, h_p_desc, h_p_category, h_p_quantity, h_p_enddate, h_p_buylevel,
+        date_format(h_p_enddate,'%Y-%m-%d %H:%i') h_p_enddateString,
+        h_p_orifilename, h_p_sysfilename
+        from h_product left join h_p_image
+        on h_p_num=h_p_pnum
+        <if test="keyword!=null">
+            where h_p_name like concat('%',#{keyword},'%')
+            or h_p_desc like concat('%',#{keyword},'%')
+        </if>
+        order by h_p_num desc
+        limit #{startIdx}, #{listCnt}
     </select>
     <!-- 관리자 페이지 보기 -->
     <select id="getAdmin" parameterType="HashMap" resultMap="ifList" resultType="InventoryDto">
@@ -84,10 +97,12 @@
         h_p_quantity = #{h_p_quantity}, h_p_desc = #{h_p_desc}, h_p_date = default, h_p_enddate = #{h_p_enddate}, h_p_buylevel = #{h_p_buylevel}
         where h_p_num = #{h_p_num}
     </update>
+    <!-- 전체 상품 개수 -->
     <select id="getInventoryCount" parameterType="SearchDto" resultType="int">
         select count(*) from h_product
-        <if test="colName!=null">
-            where ${colName} like concat('%',#{keyword},'%')
+        <if test="keyword!=null">
+            where h_p_name like concat('%',#{keyword},'%')
+            or h_p_desc like concat('%',#{keyword},'%')
         </if>
     </select>
 </mapper>

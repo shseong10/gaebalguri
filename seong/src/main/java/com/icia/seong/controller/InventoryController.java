@@ -80,7 +80,7 @@ public class InventoryController {
             sDto.setStartIdx(0);
         }
         List<InventoryDto> iList = null;
-        if(sDto.getColName() == null || sDto.getColName().equals("")) {
+        if(sDto.getKeyword() == null || sDto.getKeyword().equals("")) {
 			iList = iSer.getInventoryList(sDto.getPageNum());
 		}else {
             iList = iSer.getInventoryListSearch(sDto);
@@ -91,7 +91,7 @@ public class InventoryController {
             model.addAttribute("iList", iList);
             model.addAttribute("paging", pageHtml);
 
-            if (sDto.getColName() != null) { // 검색어 있을때
+            if (sDto.getKeyword() != null) { // 검색어 있을때
                 session.setAttribute("sDto", sDto);
             } else {
                 session.setAttribute("pageNum", sDto.getPageNum());
@@ -239,7 +239,7 @@ public class InventoryController {
             model.addAttribute("cList", cList);
         }
         List<InventoryDto> iList = null;
-        if(sDto.getColName() == null || sDto.getColName().equals("")) {
+        if(sDto.getKeyword() == null || sDto.getKeyword().equals("")) {
             iList = iSer.getInventoryList(sDto.getPageNum());
         }else {
             iList = iSer.getInventoryListSearch(sDto);
