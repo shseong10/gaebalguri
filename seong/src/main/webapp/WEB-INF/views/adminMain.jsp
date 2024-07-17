@@ -196,7 +196,7 @@
 <div class="w-75 mt-5 mx-auto">
     <div class="d-flex mb-2">
         <div class="p-2"><a href="/admin/main"><img src="/upload/logo.png" width="25%"></a></div>
-        <div class="d-flex ms-auto h-75">
+        <div class="d-flex ms-auto h-75 align-self-end">
             <input type="text" id="keyword" class="form-control me-2" placeholder="검색하기" style="width: 10rem;">
             <button type="button" id="search" onclick="search()" class="btn btn-primary"><i class="bi bi-search"></i></button>
         </div>
@@ -251,7 +251,7 @@
     </div>
     <div class="d-grid gap-2 mb-3 mx-auto">
         <div class="paging">${paging}</div>
-        <a href="/list/add_item" class="btn btn-primary" role="button">상품 등록 페이지를 열기</a>
+        <a href="/add_item" class="btn btn-primary" role="button">상품 등록 페이지를 열기</a>
         <a href="/list" class="btn btn-primary" role="button">판매 페이지로 돌아가기</a>
     </div>
 </div>

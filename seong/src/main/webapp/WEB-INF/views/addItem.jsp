@@ -14,13 +14,17 @@
     <link rel="stylesheet" href="/api/ckeditor5/style.css">
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.css">
     <script>
+        const dataTransfer = new DataTransfer();
+
         window.onload = function () {
+            //달력에서 판매기간 선택
             const myInput = document.querySelector(".myInput");
             const fp = flatpickr(myInput, {
                 enableTime: true,
                 dateFormat: "Y-m-d H:i",
                 "locale": "ko"
             });
+            //달력에서 선택한 날짜를 전송 필드에 주입
             fp.config.onChange.push(function (selectedDates, dateStr, fp) {
                 const date = new Date(dateStr);
                 const isoDateTime = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
@@ -28,25 +32,90 @@
                 document.getElementById('h_p_enddate').value = isoDateTime;
             })
 
-            const fileElem = document.getElementById('attachments')
+            //파일 첨부 미리보기
+            const fileElem = document.getElementById('attachments');
+            const previewSub = document.getElementById('preview_sub');
+            const previewMain = document.getElementById('preview_main');
             fileElem.addEventListener('change', imgCreate, false);
 
             function imgCreate() {
                 const curFiles = fileElem.files;
-                const preview = document.getElementById('preview');
+
                 for (const file of curFiles) {
-                    const img = URL.createObjectURL(file);
-                    preview.src = img;
-                    preview.style.width = '100%';
+                    const img = URL.createObjectURL(file); //현재 페이지에서만 유효한 이미지 url 생성
+                    const previewSubImg = document.createElement('img'); //위 url을 가지고 이미지 요소 생성
+                    previewSubImg.setAttribute('src', img);
+                    previewSubImg.setAttribute('alt', file.name);
+                    previewSubImg.classList.add('w-25');
+                    previewSubImg.classList.add('pre-sub');
+                    previewSubImg.style.cursor = 'pointer';
+                    previewSub.appendChild(previewSubImg); //생성한 이미지 요소를 문서에 추가
+
+                    previewMain.style.backgroundImage = 'url('+ img +')';
+
+                    previewSubImg.addEventListener('click', removePreSub, false);
+
+                    //업로드중인 파일을 dataTransfer에 추가
+                    //dataTransfer를 사용해야 POST로 보내기 전에 파일을 추가/삭제할 수 있음
+                    //dataTransfer 생성은 가장 먼저(필드변수)
+                    dataTransfer.items.add(file)
                 }
+                fileElem.files = dataTransfer.files;
             }
         }
 
+        function removePreSub() {
+            const fileElem = document.getElementById('attachments'); //페이지에서 업로드중인 파일을 배열에 저장
+
+            console.log('dataTransfer 추가 완료')
+            console.log(dataTransfer.files)
+
+            const fileName = this.alt; //선택한 이미지의 파일명을 변수에 저장
+            const preSubAll = document.querySelectorAll('.pre-sub'); //문서 내 썸네일 요소를 배열에 저장
+
+            //선택한 이미지가 업로드 목록 중 몇 번째 파일인지 검사
+            let preSubIdx;
+            for (let i = 0; i < preSubAll.length; i++) {
+                if (preSubAll[i].alt == fileName) preSubIdx = i; //만일 i번째 파일이 파일명과 일치한다면 선택한 이미지는 i번
+            }
+
+            console.log(preSubIdx + '번째 파일 ' + fileName + '를 삭제')
+
+            //dataTransfer에서 선택한 이미지의 순서에 해당하는 파일을 삭제
+            dataTransfer.items.remove(preSubIdx);
+            console.log('dataTransfer 삭제 완료')
+            console.log(dataTransfer.files)
+
+            fileElem.files = dataTransfer.files;
+
+            //선택한 이미지를 화면에서 삭제
+            this.remove();
+        }
+
+        //파일 첨부 필드 대신 이미지를 클릭하면 파일 첨부 필드가 클릭되도록 함
         function upload(){
             document.getElementById('attachments').click()
         }
 
     </script>
+    <style>
+        #preview_main {
+            background-image: url("https://icons.getbootstrap.com/assets/icons/images.svg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 50%;
+
+            cursor:pointer;
+            border:1px black solid;
+            min-height: 80%;
+
+            text-align: center;
+        }
+
+        #preview_main img {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
 <form action="/add_item" method="post" enctype="multipart/form-data">
@@ -54,11 +123,14 @@
         <div class="p-3">
             <div class="row row-cols-2">
                 <div class="col-md-4">
-                    <div class="text-center align-middle" onclick="upload()" style="cursor:pointer; border:1px black solid">
-                        <img src="https://icons.getbootstrap.com/assets/icons/images.svg" width="50%" id="preview"><br>
-                        이미지 첨부
-                        <input type="file" name="attachments" id="attachments" multiple accept="image/*" hidden="hidden"/>
+                    <div class="text-center align-middle h-100">
+                        <div onclick="upload()" id="preview_main">
+                            &nbsp;
+                        </div>
+                        <div id="preview_sub" class="row row-cols-4">
+                        </div>
                     </div>
+                    <input type="file" name="attachments" id="attachments" multiple accept="image/*" hidden="hidden"/>
                 </div>
                 <div class="col-md-8">
                     <div class="row row-cols-2 gy-3">

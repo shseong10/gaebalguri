@@ -65,18 +65,66 @@
             formObj.action = "/take_item"
             formObj.submit();
         }
+
+        window.onload = function () {
+            //이미지 슬라이더
+            //컨트롤러로 가져온 데이터 중 파일리스트로 배열 생성
+            const curFiles = new Array();
+            <c:forEach items="${inventory.ifList}" var="item">
+                curFiles.push({filename : '${item.h_p_sysFileName}'});
+            </c:forEach>
+
+            //파일리스트 배열을 슬라이더 요소로 생성
+            const carouselInner = document.getElementById('carousel-inner');
+
+            for (const file of curFiles) {
+                //슬라이더 div 생성
+                const carouselItem = document.createElement('div');
+                carouselItem.className = 'carousel-item';
+
+                //슬라이더 이미지 생성
+                const img = '/upload/' + file.filename;
+                const carouselItemImg = document.createElement('img');
+                carouselItemImg.className = 'd- block w-100'
+                carouselItemImg.setAttribute('src', img);
+
+                //생성된 슬라이더 div와 이미지를 문서 내에 추가
+                carouselInner.appendChild(carouselItem);
+                carouselItem.appendChild(carouselItemImg);
+            }
+
+            //추가된 슬라이더중 첫번째 슬라이더에만 클래스(.active)추가 - 부트스트랩 슬라이더 사용 조건
+            document.querySelector('.carousel-item').classList.add('active');
+
+        }
     </script>
     <style>
         .text-body-secondary img {
             max-width: 100% !important;
+        }
+
+        .carousel-control-btn {
+            color: #ced4da;
+            font-weight: bold;
+            font-size: 2.5rem;
         }
     </style>
 </head>
 <body>
     <div class="card mb-3 w-75 mx-auto">
         <div class="row g-0">
-            <div class="col-md-4">
-                <img src="/upload/${inventory.ifList[0].h_p_sysFileName}" class="img-fluid rounded-start" alt="...">
+            <div class="col-md-4 carousel slide" id="carousel">
+                <div class="carousel-inner" id="carousel-inner">
+
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                    <span class="carousel-control-btn" aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+                    <span class="visually-hidden">이전</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                    <span class="carousel-control-btn" aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+                    <span class="visually-hidden">다음</span>
+                </button>
             </div>
             <div class="col-md-8">
                 <div class="card-body">
