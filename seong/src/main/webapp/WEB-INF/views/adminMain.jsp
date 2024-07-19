@@ -49,9 +49,33 @@
                         modalViewDesc.click();
 
                         //저장된 이미지 가져오기
-                        const modalViewImgFilename = result[0].ifList[0].h_p_sysFileName;
-                        const modalViewImg = document.getElementById('h_p_img');
-                        modalViewImg.setAttribute('src', '/upload/' + modalViewImgFilename);
+                        // const modalViewImgFilename = result[0].ifList[0].h_p_sysFileName;
+                        // const modalViewImg = document.getElementById('h_p_img');
+                        // modalViewImg.setAttribute('src', '/upload/' + modalViewImgFilename);
+                        //DTO로 가져온 데이터로 배열 생성(원본파일명, 시스템파일명 조합)
+                        const savedImgList = new Array();
+                        for (file : result[0].ifList) {
+
+                        }
+
+                        savedImgList.push({oriFileName: '${item.h_p_oriFileName}', sysFileName: '${item.h_p_sysFileName}'});
+
+                        //이미지 객체를 만들어서 문서 내에 추가
+                        if (savedImgList.length > 0) {
+                            for (let i = 0; i < savedImgList.length; i++) {
+                                const savedImg = document.createElement('img');
+                                savedImg.setAttribute('src', '/upload/' + savedImgList[i].sysFileName);
+                                savedImg.setAttribute('alt', savedImgList[i].oriFileName);
+                                savedImg.classList.add('w-25');
+                                savedImg.classList.add('pre-sub-ori');
+                                savedImg.style.cursor = 'pointer';
+                                previewSub.appendChild(savedImg);
+
+                                savedImg.addEventListener('click', removePreSubOri, false);
+                            }
+                        }
+
+
 
                         //저장된 카테고리 가져오기
                         const savedCategory = result[0].h_p_category
@@ -268,9 +292,14 @@
                 <div class="p-3">
                     <div class="row row-cols-2">
                         <div class="col-md-4">
-                            상품 이미지
-                            <img src="#" class="img-fluid rounded-start" alt="..." id="h_p_img">
-                            <input type="file" class="form-control" name="attachments" id="attachments" multiple>
+                            <div class="text-center align-middle h-100">
+                                <div onclick="upload()" id="preview_main">
+                                    &nbsp;
+                                </div>
+                                <div id="preview_sub" class="row row-cols-4">
+                                </div>
+                            </div>
+                            <input type="file" name="attachments" id="attachments" multiple accept="image/*" hidden="hidden"/>
                         </div>
                         <div class="col-md-8">
                             <div class="row row-cols-2 gy-3">

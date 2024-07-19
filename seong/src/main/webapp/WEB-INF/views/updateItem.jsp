@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="/api/ckeditor5/style.css">
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.1/ckeditor5.css">
     <script>
+        const dataTransfer = new DataTransfer();
+
         window.onload = function () {
             const enddate = "${inventory.h_p_enddateString}";
 
@@ -36,19 +38,58 @@
                 if (selectCategory[i].value == savedCategory) selectCategory[i].selected = true;
             }
 
-            //파일업로드 HTML요소 지정
-            const fileElem = document.getElementById('attachments')
+            //파일 첨부 미리보기
+            const fileElem = document.getElementById('attachments');
+            const previewSub = document.getElementById('preview_sub');
+            const previewMain = document.getElementById('preview_main');
             fileElem.addEventListener('change', imgCreate, false);
+
+            //저장된 이미지 불러오기
+            //DTO로 가져온 데이터로 배열 생성(원본파일명, 시스템파일명 조합)
+            const savedImgList = new Array();
+            <c:forEach items="${inventory.ifList}" var="item">
+            savedImgList.push({oriFileName: '${item.h_p_oriFileName}', sysFileName: '${item.h_p_sysFileName}'});
+            </c:forEach>
+            //이미지 객체를 만들어서 문서 내에 추가
+            if (savedImgList.length > 0) {
+                for (let i = 0; i < savedImgList.length; i++) {
+                    const savedImg = document.createElement('img');
+                    savedImg.setAttribute('src', '/upload/' + savedImgList[i].sysFileName);
+                    savedImg.setAttribute('alt', savedImgList[i].oriFileName);
+                    savedImg.classList.add('w-25');
+                    savedImg.classList.add('pre-sub-ori');
+                    savedImg.style.cursor = 'pointer';
+                    previewSub.appendChild(savedImg);
+
+                    savedImg.addEventListener('click', removePreSubOri, false);
+                }
+            }
+
 
             //파일업로드 내용이 바뀌면 다음 메소드를 실행
             function imgCreate() {
-                const curFiles = fileElem.files; //파일업로드 요소의 파일 이름
-                const preview = document.getElementById('preview'); //이미지 미리보기가 표시될 img요소 아이디 (예시:<img src="#" id="preview">)
+                const curFiles = fileElem.files;
+
                 for (const file of curFiles) {
-                    const img = URL.createObjectURL(file); //이미지 url 생성
-                    preview.src = img;
-                    preview.style.width = '100%';
+                    const img = URL.createObjectURL(file); //현재 페이지에서만 유효한 이미지 url 생성
+                    const previewSubImg = document.createElement('img'); //위 url을 가지고 이미지 요소 생성
+                    previewSubImg.setAttribute('src', img);
+                    previewSubImg.setAttribute('alt', file.name);
+                    previewSubImg.classList.add('w-25');
+                    previewSubImg.classList.add('pre-sub');
+                    previewSubImg.style.cursor = 'pointer';
+                    previewSub.appendChild(previewSubImg); //생성한 이미지 요소를 문서에 추가
+
+                    previewMain.style.backgroundImage = 'url(' + img + ')';
+
+                    previewSubImg.addEventListener('click', removePreSub, false);
+
+                    //업로드중인 파일을 dataTransfer에 추가
+                    //dataTransfer를 사용해야 POST로 보내기 전에 파일을 추가/삭제할 수 있음
+                    //dataTransfer 생성은 가장 먼저(필드변수)
+                    dataTransfer.items.add(file)
                 }
+                fileElem.files = dataTransfer.files;
             }
 
             //판매기간 체크
@@ -72,10 +113,71 @@
 
         }
 
-        function upload(){
+        function removePreSub() {
+            console.log('dataTransfer 추가 완료')
+
+            console.log(dataTransfer.files)
+
+            const fileName = this.alt; //선택한 이미지의 파일명을 변수에 저장
+            const preSubAll = document.querySelectorAll('.pre-sub'); //문서 내 썸네일 요소를 배열에 저장
+
+            //선택한 이미지가 업로드 목록 중 몇 번째 파일인지 검사
+            let preSubIdx;
+            for (let i = 0; i < preSubAll.length; i++) {
+                if (preSubAll[i].alt == fileName) preSubIdx = i; //만일 i번째 파일이 파일명과 일치한다면 선택한 이미지는 i번
+            }
+
+            console.log(preSubIdx + '번째 파일 ' + fileName + '를 삭제')
+
+            //dataTransfer에서 선택한 이미지의 순서에 해당하는 파일을 삭제
+            dataTransfer.items.remove(preSubIdx);
+            console.log('dataTransfer 삭제 완료')
+            console.log(dataTransfer.files)
+
+            fileElem.files = dataTransfer.files;
+
+            //선택한 이미지를 화면에서 삭제
+            this.remove();
+        }
+
+        function removePreSubOri() {
+            const fileName = this.alt; //선택한 이미지의 파일명을 변수에 저장
+
+            console.log('기존 파일 ' + fileName + '를 삭제')
+
+            const deleteFile = document.createElement('input');
+            deleteFile.setAttribute('type', 'hidden');
+            deleteFile.setAttribute('name', 'deleteFile');
+            deleteFile.setAttribute('id', fileName);
+            deleteFile.setAttribute('value', fileName);
+            document.getElementById('preview_sub').appendChild(deleteFile);
+
+            //선택한 이미지를 화면에서 삭제
+            this.remove();
+        }
+
+        function upload() {
             document.getElementById('attachments').click()
         }
     </script>
+    <style>
+        #preview_main {
+            background-image: url("https://icons.getbootstrap.com/assets/icons/images.svg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 50%;
+
+            cursor:pointer;
+            border:1px black solid;
+            min-height: 80%;
+
+            text-align: center;
+        }
+
+        #preview_main img {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
 <form action="/update_item" method="post" enctype="multipart/form-data">
@@ -83,11 +185,14 @@
         <div class="p-3">
             <div class="row row-cols-2">
                 <div class="col-md-4">
-                    <div class="text-center align-middle" onclick="upload()" style="cursor:pointer; border:1px black solid">
-                        <img src="/upload/${inventory.ifList[0].h_p_sysFileName}" width="100%" id="preview"><br>
-                        이미지 첨부
-                        <input type="file" name="attachments" id="attachments" multiple accept="image/*" hidden="hidden"/>
+                    <div class="text-center align-middle h-100">
+                        <div onclick="upload()" id="preview_main">
+                            &nbsp;
+                        </div>
+                        <div id="preview_sub" class="row row-cols-4">
+                        </div>
                     </div>
+                    <input type="file" name="attachments" id="attachments" multiple accept="image/*" hidden="hidden"/>
                 </div>
                 <div class="col-md-8">
                     <div class="row row-cols-2 gy-3">

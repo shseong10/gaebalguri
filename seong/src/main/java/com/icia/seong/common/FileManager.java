@@ -1,6 +1,7 @@
 package com.icia.seong.common;
 
 import com.icia.seong.dao.InventoryDao;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,4 +114,16 @@ public class FileManager {
         }
         return map;
     }
+
+
+    //선택한 파일 삭제
+    public boolean deleteSelFmap(HttpSession session, Map fMap){
+        log.info("선택한 파일 삭제: {}", fMap);
+        boolean result = iDao.deleteSelFmap(fMap);
+        if (result) {
+            return true;
+        }
+        return false;
+    }
 }
+

@@ -5,8 +5,10 @@ import com.icia.seong.common.Paging;
 import com.icia.seong.dao.InventoryDao;
 import com.icia.seong.dto.CategoryDto;
 import com.icia.seong.dto.InventoryDto;
+import com.icia.seong.dto.InventoryFile;
 import com.icia.seong.dto.SearchDto;
 import com.icia.seong.exception.DBException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,11 +75,11 @@ public class InventoryService {
         if (result) {
             if(!inventory.getAttachments().get(0).isEmpty()) {
                 //기존 파일 삭제
-                String[] sysFiles = iDao.getsysFiles(inventory.getH_p_num());
-                if(sysFiles.length != 0) {
-                    fm.fileDelete(sysFiles, session);
-                    iDao.deleteFile(inventory.getH_p_num());
-                }
+//                String[] sysFiles = iDao.getsysFiles(inventory.getH_p_num());
+//                if(sysFiles.length != 0) {
+//                    fm.fileDelete(sysFiles, session);
+//                    iDao.deleteFile(inventory.getH_p_num());
+//                }
                 if(fm.fileUpload(inventory.getAttachments(), session, inventory.getH_p_num())) {
                     log.info("!!=== 상품 수정 완료 ===!!");
                     return true;

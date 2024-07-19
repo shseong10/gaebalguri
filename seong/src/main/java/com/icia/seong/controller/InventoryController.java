@@ -8,8 +8,10 @@ import com.icia.seong.exception.DBException;
 import com.icia.seong.service.CartService;
 import com.icia.seong.service.InventoryService;
 import com.icia.seong.service.OrderService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -144,16 +146,27 @@ public class InventoryController {
     }
 
     @PostMapping("/update_item")
-    public String updateItem(InventoryDto inventory, HttpSession session, RedirectAttributes rttr) {
+    public String updateItem(@RequestParam("h_p_num") Integer h_p_num, InventoryDto inventory, HttpSession session, RedirectAttributes rttr,
+                             HttpServletRequest request) {
         log.info("상품 수정");
-        log.info(">>>>상품: {}", inventory);
-        for(MultipartFile mf : inventory.getAttachments()) {
-            log.info(">>> 파일명: ", mf.getOriginalFilename());
-            log.info("====================================================");
+
+        for (MultipartFile mf : inventory.getAttachments()) {
+            log.info("추가 업로드 파일: {}", mf.getOriginalFilename());
         }
+
         boolean result = iSer.updateItem(inventory, session);
         if (result) {
             rttr.addFlashAttribute("msg", "상품 수정 성공");
+            //선택한 파일 삭제
+            if (request.getParameterValues("deleteFile").length > 0) {
+                Map fMap = new HashMap();
+                for (String h_p_oriFileName : request.getParameterValues("deleteFile")) {
+                    log.info("IController/선택한 파일 삭제>>>FileManager {}", h_p_oriFileName);
+                    fMap.put("h_p_num", h_p_num);
+                    fMap.put("h_p_oriFileName", h_p_oriFileName);
+                    fm.deleteSelFmap(session, fMap);
+                }
+            }
             return "redirect:/list";
         } else {
             rttr.addFlashAttribute("msg", "상품 수정 실패");

@@ -2,6 +2,7 @@ package com.icia.seong.dao;
 
 import com.icia.seong.dto.CategoryDto;
 import com.icia.seong.dto.InventoryDto;
+import com.icia.seong.dto.InventoryFile;
 import com.icia.seong.dto.SearchDto;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
@@ -48,4 +49,7 @@ public interface InventoryDao {
     int getInventoryCount(SearchDto sDto);
 
     List<InventoryDto> getInventoryListSearch(SearchDto sDto);
+
+    @Delete("delete from h_p_image where h_p_pnum=#{h_p_num} and h_p_oriFileName=#{h_p_oriFileName}")
+    boolean deleteSelFmap(Map fMap);
 }
