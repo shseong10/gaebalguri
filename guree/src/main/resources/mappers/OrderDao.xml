@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        " http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icia.guree.dao.OrderDao">
+    <insert id="buyItemSelectKey" parameterType="orderDto" useGeneratedKeys="true" keyProperty="h_order_num">
+        insert into h_order values
+        (default, #{h_o_p_num}, #{h_o_user_id}, #{h_o_qty}, #{h_o_sales_price}, h_o_sales_price*h_o_qty, default, default);
+    </insert>
+</mapper>

@@ -1,0 +1,54 @@
+package com.icia.guree.dao;
+
+import com.icia.guree.entity.CategoryDto;
+import com.icia.guree.entity.InventoryDto;
+import com.icia.guree.entity.SearchDto;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+import java.util.Map;
+
+@Mapper
+public interface InventoryDao {
+
+    @Select("select * from h_product")
+    List<InventoryDto> compareQuary();
+
+    boolean addItemSelectKey(InventoryDto inventory);
+
+    List<InventoryDto> getInventoryList(Map<String, Integer> pageMap);
+
+    List<InventoryDto> getAdmin();
+
+    boolean fileInsertMap(Map<String, String> fMap);
+
+    @Select("select h_p_sysfilename from h_p_image where h_p_pnum=#{h_p_num}")
+    String[] getsysFiles(int h_p_num);
+
+    InventoryDto getInventoryDetail(int h_p_num);
+
+    List<CategoryDto> getCategoryList();
+
+    boolean updateItem (InventoryDto inventory);
+
+    //첨부파일 삭제
+    @Delete("delete from h_p_image where h_p_pnum=#{h_p_num}")
+    boolean deleteFile(int h_p_num);
+
+    //상품 삭제
+    @Delete("delete from h_product where h_p_num=#{h_p_num}")
+    boolean deleteItem(Integer h_p_num);
+
+    boolean quickUpdate(InventoryDto inventory);
+
+    List<InventoryDto> getQuickView(Integer h_p_num);
+
+    int getInventoryCount(SearchDto sDto);
+
+    List<InventoryDto> getInventoryListSearch(SearchDto sDto);
+
+    @Delete("delete from h_p_image where h_p_pnum=#{h_p_num} and h_p_oriFileName=#{h_p_oriFileName}")
+    boolean deleteSelFmap(Map fMap);
+}
