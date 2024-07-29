@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bdf5297d-48c4-4950-af2f-4289bdfd6c1a" name="Changes" comment="[# 2] 파일 결합">
+      <change afterPath="$PROJECT_DIR$/.idea/modules/guree.main.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/GureeApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/common/BoardFileManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/common/NoticeFileManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/common/Paging.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/common/ProfileFileManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/controller/AdminController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/controller/AdminRestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/controller/BoardController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/controller/BoardRestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/controller/HomeController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/controller/MemberController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/controller/MemberRestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/controller/NoticeController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/controller/ReportController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/dao/BoardDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/dao/FileDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/dao/MemberDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/dao/NoticeDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/entity/AttendanceDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/entity/BoardDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/entity/BoardFileDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/entity/CartDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/entity/CategoryDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/entity/InventoryDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/entity/InventoryFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/entity/MemberDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/entity/NoticeDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/entity/NoticeFileDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/entity/OrderDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/entity/ProfileFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/entity/SearchDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/security/LoginFailHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/security/MyAccessDeniedHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/security/MyUserDetailService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/service/AdminService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/service/BoardService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/service/MemberService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/service/NoticeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/service/ReportService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/resources/mappers/BoardDao.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/resources/mappers/MemberDao.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/resources/mappers/NoticeDao.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/resources/static/img/product_upload.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/resources/static/img/slider.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/board/allList.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/board/auctionDetail.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/board/auctionList.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/board/auctionRegister.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/board/marketDetail.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/board/marketList.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/board/marketRegister.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/footer.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/header.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/index.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/member/admin.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/member/chat.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/member/idFinder.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/member/infoUpdate.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/member/join.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/member/login.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/member/myCart.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/member/myPage.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/member/myTrade.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/member/pwFinder.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/nav.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/notice/NoticeDetail.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/notice/NoticeList.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/notice/NoticeUpdate.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/notice/NoticeWrite.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/notice/ReportDetail.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/notice/ReportList.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/notice/ReportUpdate.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/notice/ReportWrite.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/section.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/test.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720167890582.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720167910765.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720492238284.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720492253051.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/프사없음.jfif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/test/java/com/icia/guree/GureeApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/guree/src/test/java/com/icia/guree/dao/MemberDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/guree/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/guree/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/guree/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/guree/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/guree/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/guree/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/SeongApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/ServletInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/ServletInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/common/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/common/FileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/common/Paging.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/controller/HomeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/controller/InventoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/controller/InventoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/controller/InventoryRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/controller/InventoryRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/dao/CartDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/dao/CartDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/dao/InventoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/dao/InventoryDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/dao/OrderDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/dao/OrderDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/dto/CartDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/dto/CategoryDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/dto/InventoryDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/dto/InventoryFile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/dto/OrderDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/dto/SearchDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/exception/DBException.java" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/exception/DBException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/service/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/service/InventoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/service/InventoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/java/com/icia/seong/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/java/com/icia/guree/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/log4jdbc.log4j2.properties" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/log4jdbc.log4j2.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/logback-spring.xml" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/logback-spring.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/mappers/CartDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/mappers/CartDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/mappers/InventoryDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/mappers/InventoryDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/mappers/OrderDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/mappers/OrderDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/static/api/ckeditor5/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/api/ckeditor5/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/static/api/ckeditor5/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/api/ckeditor5/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/static/api/ckeditor5/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/api/ckeditor5/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/static/api/ckeditor5/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/api/ckeditor5/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/static/api/ckeditor5/translations/en.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/api/ckeditor5/translations/en.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/static/api/ckeditor5/translations/en.js" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/api/ckeditor5/translations/en.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/static/api/ckeditor5/translations/en.umd.js" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/api/ckeditor5/translations/en.umd.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/static/api/ckeditor5/translations/ko.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/api/ckeditor5/translations/ko.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/static/api/ckeditor5/translations/ko.js" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/api/ckeditor5/translations/ko.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/static/api/ckeditor5/translations/ko.umd.js" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/api/ckeditor5/translations/ko.umd.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/static/api/ckeditor5/uploadAdapter.js" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/api/ckeditor5/uploadAdapter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/resources/static/api/ckeditor5/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/api/ckeditor5/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/WEB-INF/views/addItem.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/addItem.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/WEB-INF/views/adminMain.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/adminMain.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/WEB-INF/views/adminMain_proto.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/adminMain_proto.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/WEB-INF/views/buyItem.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/buyItem.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/WEB-INF/views/itemList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/itemList.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/WEB-INF/views/updateItem.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/updateItem.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/WEB-INF/views/updateItem_proto.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/updateItem_proto.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/WEB-INF/views/viewItem.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/WEB-INF/views/viewItem.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720160381671.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/img/product_sample_01.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720160405117.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/img/product_sample_02.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720162133187.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720160381671.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720162230420.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720162133187.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720167872235.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720160405117.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720167890582.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/img/product_sample_03.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720167910765.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/img/product_sample_04.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720170202326.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720170202326.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720170250387.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720170250387.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720487905368.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720487905368.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720490089540.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720490089540.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720492084626.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720492084626.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720492143987.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720492143987.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720492238284.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720167872235.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720492253051.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720162230420.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720494072614.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720494072614.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720602558980.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720602558980.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720680445243.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720680445243.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720682185356.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720682185356.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720772375416.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720772375416.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720774298818.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720774298818.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1720775792550.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1720775792550.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721008581803.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721008581803.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721026841472.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721026841472.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721029732199.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721029732199.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721031983338.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721031983338.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721179566433.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721179566433.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721179566478.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721179566478.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721179566520.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721179566520.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721202873102.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721202873102.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721202873173.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721202873173.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721202873224.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721202873224.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721349603884.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721349603884.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721349603942.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721349603942.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721349603969.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721349603969.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721350262173.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721350262173.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721350262217.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721350262217.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721351844514.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721351844514.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721351844536.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721351844536.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721352122394.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721352122394.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721355349073.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721355349073.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721356224130.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721356224130.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721356570927.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721356570927.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721356873254.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721356873254.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721373164166.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721373164166.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721373164201.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721373164201.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/1721373164265.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/1721373164265.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/admin/1721029298933.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/admin/1721029298933.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/admin/1721029475668.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/admin/1721029475668.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/admin/1721029672562.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/admin/1721029672562.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/admin/1721031564561.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/admin/1721031564561.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/admin/1721031877584.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/admin/1721031877584.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/admin/1721031897756.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/admin/1721031897756.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/admin/1721031953172.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/admin/1721031953172.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/admin/1721031974404.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/admin/1721031974404.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/admin/1721032113456.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/admin/1721032113456.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/admin/1721115397225.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/admin/1721115397225.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/adminitems/1721026194365.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/adminitems/1721026194365.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/adminitems/1721026360540.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/adminitems/1721026360540.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/adminitems/1721026378802.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/adminitems/1721026378802.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/adminitems/1721026405383.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/adminitems/1721026405383.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/adminitems/1721026443828.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/adminitems/1721026443828.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/adminitems/1721026463027.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/adminitems/1721026463027.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/adminitems/1721026508076.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/adminitems/1721026508076.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/adminitems/1721026703127.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/adminitems/1721026703127.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/adminitems/1721026837469.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/webapp/upload/adminitems/1721026837469.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/main/webapp/upload/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/guree/src/main/resources/static/img/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/src/test/java/com/icia/seong/SeongApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/seong/프로젝트_erp.sql" beforeDir="false" afterPath="$PROJECT_DIR$/guree/프로젝트_erp.sql" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/guree">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/seong">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/seong">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="guree" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Jsp File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="develop" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "shseong10"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/shseong10/gaebalguri.git",
+    "accountId": "4c5cf5f8-b5bb-4acb-888d-883e38f760e3"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2jtms5JTPzSFlWBXXWq88mlMT3i" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build guree.executor": "Run",
+    "Gradle.seong [assemble].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.GureeApplication.executor": "Run",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\final_work\back-end\gaebalguri\seong\src\main\java\com\icia" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.GureeApplication">
+    <configuration name="seong [assemble]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/seong" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="assemble" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="GureeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="guree.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.icia.guree.GureeApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.seong [assemble]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17890.1" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17890.1" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bdf5297d-48c4-4950-af2f-4289bdfd6c1a" name="Changes" comment="" />
+      <created>1722214950973</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1722214950973</updated>
+      <workItem from="1722214952238" duration="5275000" />
+    </task>
+    <task id="LOCAL-00001" summary="첫번째 브런치 생성 후 개인 작업물 업로드">
+      <option name="closed" value="true" />
+      <created>1722215994211</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1722215994211</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/develop" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="첫번째 브런치 생성 후 개인 작업물 업로드" />
+    <MESSAGE value="[# 2] 파일 결합" />
+    <option name="LAST_COMMIT_MESSAGE" value="[# 2] 파일 결합" />
+  </component>
+</project>

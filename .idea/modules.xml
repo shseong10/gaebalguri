@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/gaebalguri.iml" filepath="$PROJECT_DIR$/.idea/gaebalguri.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/guree.main.iml" filepath="$PROJECT_DIR$/.idea/modules/guree.main.iml" />
     </modules>
   </component>
 </project>

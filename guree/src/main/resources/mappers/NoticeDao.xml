@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icia.guree.dao.NoticeDao">
+    <resultMap id="NoticeResult" type="NoticeDto">
+        <id property="n_num" column="n_num" />
+        <result property="n_id" column="n_id" />
+        <result property="n_kind" column="n_kind" />
+        <result property="n_title" column="n_title" />
+        <result property="n_contents" column="n_contents" />
+        <result property="n_date" column="n_date" />
+        <result property="n_views" column="n_views" />
+        <collection property="nfList" javaType="ArrayList" ofType="NoticeFileDto">
+            <result property="nf_oriFileName" column="nf_oriFileName" />
+            <result property="nf_sysFileName" column="nf_sysFileName" />
+        </collection>
+    </resultMap>
+
+    <insert id="noticeWrite" useGeneratedKeys="true" keyProperty="n_num">
+        insert into notice (n_num, n_id, n_kind, n_title, n_contents, n_date, n_views)
+        values(null, #{n_id}, #{n_kind}, #{n_title}, #{n_contents}, default, default)
+        <selectKey keyProperty="n_num" resultType="Integer" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <insert id="fileUpload">
+        insert into noticeFile(nf_num, nf_n_num, nf_oriFileName, nf_sysFileName)
+        values(null, #{n_num}, #{oriFileName}, #{sysFileName})
+    </insert>
+
+    <delete id="fileDelete">
+        delete from noticeFile where nf_n_num = #{n_num}
+    </delete>
+
+    <select id="getNoticeList" parameterType="SearchDto" resultType="NoticeDto">
+        select n_num, n_id, n_kind, m_name, n_title, n_contents, n_date, n_views
+        from member m join notice n on m.m_id = n.n_id where (n_kind = '공지' or n_kind = '광고')
+        <if test="colName != null and colName != ''">
+             and ${colName} like concat('%', #{keyWord}, '%')
+        </if>
+        order by n.n_date desc limit #{startIdx}, #{listCnt}
+    </select>
+
+    <select id="getReportList" parameterType="SearchDto" resultType="NoticeDto">
+        select n_num, n_id, n_kind, m_name, n_title, n_contents, n_date, n_views
+        from member m join notice n on m.m_id = n.n_id where (n_kind = '신고' or n_kind = '문의')
+        <if test="colName != null and colName != ''">
+            and ${colName} like concat('%', #{keyWord}, '%')
+        </if>
+        order by n.n_date desc limit #{startIdx}, #{listCnt}
+    </select>
+
+    <select id="getNoticeDetail" resultMap="NoticeResult">
+        select n_num, n_id, n_kind, n_title, n_contents, n_date, n_views,
+        nf_oriFileName, nf_sysFileName from notice left join noticeFile
+        on n_num = nf_n_num where n_num = #{n_num}
+    </select>
+
+    <select id="getSysFiles">
+        select nf_sysFileName from noticeFile where nf_n_num = #{n_num}
+    </select>
+
+    <select id="getNoticeCount" resultType="java.lang.Integer">
+        select count(*) from notice where (n_kind = '광고' or n_kind = '공지')
+        <if test="colName != null">
+             and ${colName} like concat('%', #{keyWord}, '%')
+        </if>
+    </select>
+
+    <select id="getReportCount" resultType="java.lang.Integer">
+        select count(*) from notice where (n_kind = '신고' or n_kind = '문의')
+        <if test="colName != null">
+            and ${colName} like concat('%', #{keyWord}, '%')
+        </if>
+    </select>
+
+    <select id="getNoticeViewId" resultType="java.lang.String">
+        select n_id from noticeview where n_num = #{n_num} and n_id = #{username}
+    </select>
+
+    <update id="setNoticeView">
+        update notice set n_views = n_views + 1 where n_num = #{n_num}
+    </update>
+
+    <insert id="setNoticeViewInfo">
+        insert into noticeview values(null, #{username}, #{n_num})
+    </insert>
+
+    <update id="noticeUpdate">
+        update notice set n_kind = #{n_kind}, n_title = #{n_title}, n_contents = #{n_contents} where n_num = #{n_num}
+    </update>
+
+</mapper>

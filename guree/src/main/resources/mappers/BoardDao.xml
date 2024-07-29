@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icia.guree.dao.BoardDao">
+
+    <resultMap type="BoardDto" id="boardResult">
+        <id property="sb_num" column="sb_num" />
+        <result property="a_num" column="a_num" />
+        <result property="a_joinId" column="a_joinid" />
+        <result property="a_bidPrice" column="a_bidprice" />
+        <result property="sb_id" column="sb_id" />
+        <result property="sb_bid" column="sb_bid" />
+        <result property="sb_count" column="sb_count" />
+        <result property="sb_category" column="sb_category" />
+        <result property="sb_contents" column="sb_contents" />
+        <result property="sb_local" column="sb_local" />
+        <result property="sb_date" column="sb_date" />
+        <result property="sb_nowPrice" column="sb_nowprice" />
+        <result property="sb_timer" column="sb_timer" />
+        <result property="sb_startPrice" column="sb_startprice" />
+        <result property="sb_saleKind" column="sb_salekind" />
+        <result property="sb_title" column="sb_title" />
+        <result property="sb_price" column="sb_price" />
+        <result property="sb_scope" column="sb_scope" />
+        <result property="sb_view" column="sb_view" />
+        <collection property="bfList" javaType="ArrayList" ofType="BoardFileDto">
+            <result property="bf_sysFileName" column="bf_sysfilename"/>
+            <result property="bf_oriFileName" column="bf_orifilename"/>
+        </collection>
+    </resultMap>
+
+    <resultMap type="BoardDto" id="boardList">
+        <id property="sb_num" column="sb_num" />
+        <result property="sb_id" column="sb_id" />
+        <result property="sb_bid" column="sb_bid" />
+        <result property="sb_category" column="sb_category" />
+        <result property="sb_contents" column="sb_contents" />
+        <result property="sb_local" column="sb_local" />
+        <result property="sb_date" column="sb_date" />
+        <result property="sb_nowPrice" column="sb_nowprice" />
+        <result property="sb_timer" column="sb_timer" />
+        <result property="sb_startPrice" column="sb_startprice" />
+        <result property="sb_saleKind" column="sb_salekind" />
+        <result property="sb_title" column="sb_title" />
+        <result property="sb_price" column="sb_price" />
+        <result property="sb_scope" column="sb_scope" />
+        <result property="sb_view" column="sb_view" />
+        <collection property="bfList" javaType="ArrayList" ofType="BoardFileDto">
+            <result property="bf_oriFileName" column="bf_orifilename"/>
+            <result property="bf_sysFileName" column="bf_sysfilename"/>
+        </collection>
+    </resultMap>
+
+    <resultMap type="boardFileDto" id="boardFile">
+        <id property="bf_num" column="bf_num" />
+        <result property="bf_sb_num" column="bf_sb_num" />
+        <result property="bf_oriFileName" column="bf_orifilename"/>
+        <result property="bf_sysFileName" column="bf_sysfilename"/>
+        </resultMap>
+
+    <insert id="productRegister" >
+        insert into saleboard
+        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, #{sb_startPrice}, 0, #{sb_price}, #{sb_bid}, #{sb_timer}, #{sb_local}, #{sb_count}, default, #{sb_scope}, default)
+    </insert>
+
+    <insert id="auctionUser">
+        insert into auctionprogress
+        values (null, #{sb_num}, #{sb_id}, #{sb_nowPrice} + #{sb_bid})
+    </insert>
+
+    <insert id="marketProductRegister">
+        insert into saleboard
+        values (null, #{sb_id}, #{sb_category}, #{sb_saleKind}, #{sb_title}, #{sb_contents}, null, null, 0, #{sb_price}, null, null, #{sb_local}, #{sb_count}, default, #{sb_scope}, default)
+    </insert>
+    <insert id="myCartAttend">
+        insert into watchlist values (null,#{sb_num},#{username})
+
+    </insert>
+
+    <update id="attend">
+        update saleboard set sb_nowprice = #{sb_nowPrice} + #{sb_bid} where sb_num = #{sb_num}
+    </update>
+
+    <update id="saleBoardDelete">
+        update saleboard set sb_scope = 2 where sb_num = #{sb_num}
+    </update>
+
+    <update id="setBoardView">
+        update  saleboard set sb_view = sb_view + 1 where sb_num = #{sb_num}
+    </update>
+
+    <update id="restore">
+        update saleboard set sb_scope = 1 where sb_num = #{sb_num}
+    </update>
+
+    <update id="auctionEnd">
+        update saleboard set sb_scope = 3 where sb_num = #{sb_num}
+    </update>
+
+    <delete id="realDelete">
+        delete from saleboard where sb_num = #{sb_num}
+    </delete>
+
+    <delete id="cateDelete">
+        delete from category where c_kind = #{c_kind}
+    </delete>
+
+    <insert id="setViewInfo">
+        insert  into boardview values (null,#{username},#{sb_num})
+    </insert>
+
+    <insert id="cateAttend">
+        insert into category values(null,#{c_kind})
+    </insert>
+
+    <select id="auctionList" resultMap="boardList">
+        select * from saleboard left join boardfile
+        on sb_num = bf_sb_num
+        where sb_scope = 1 and sb_salekind =1
+        <if test="sb_category !=null and sb_category !=''">
+        and sb_category = #{sb_category}
+        </if>
+        <if test="keyWord != null and keyWord !=''">
+            and (sb_category like concat('%',#{keyWord},'%')  or sb_title like concat('%',#{keyWord},'%') or sb_contents like concat('%',#{keyWord},'%')
+            or sb_local like concat('%',#{keyWord},'%'))
+        </if>
+        order by sb_num desc limit #{startIdx}, #{listCnt}
+
+
+    </select>
+
+    <select id="auctionDetail" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
+        select  a_num, a_joinid, progressnum, a_bidprice, sb_id, sb_bid, sb_category, sb_contents, sb_local,
+                sb_date, sb_nowprice, sb_timer, sb_startprice, sb_num, sb_salekind, sb_title, sb_price, sb_scope, sb_view
+                 from auction where sb_num = #{sb_num} order by a_num desc limit 1
+    </select>
+
+    <select id="getNumber" resultType="java.lang.String">
+        select max(sb_num) sb_num from saleboard
+    </select>
+
+    <select id="getFile" resultType="com.icia.guree.entity.BoardFileDto" resultMap="boardFile">
+    select * from boardfile where bf_sb_num = #{sb_num}
+    </select>
+
+    <select id="getAttender">
+        select a_joinid from auctionprogress where progressnum = #{sb_num} order by a_num desc limit 1
+    </select>
+
+    <select id="countAuctionItems" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM saleboard WHERE sb_scope = 1 and sb_salekind = 1
+        <if test="sb_category != null and sb_category != ''">
+            and sb_category = #{sb_category}
+        </if>
+        <if test="keyWord != null and keyWord != ''">
+            and (sb_category like concat('%',#{sb_category},'%') or sb_title like concat('%',#{keyWord},'%') or sb_contents like concat('%',#{keyWord},'%')
+            or sb_local like concat('%',#{keyWord},'%'))
+        </if>
+
+    </select>
+
+    <select id="getMyTrade" resultMap="boardResult">
+        select * from mytrade left join boardfile on sb_num = bf_sb_num where sb_salekind = 1 and  a_joinid = #{name} and sb_scope = 1  order by a_num desc
+    </select>
+
+    <select id="getMarketList" resultMap="boardList">
+        select * from saleboard left join boardfile
+        on sb_num = bf_sb_num
+        where sb_scope = 1 and sb_salekind =2
+        <if test="sb_category !=null and sb_category !=''">
+            and sb_category = #{sb_category}
+        </if>
+        <if test="keyWord != null and keyWord !=''">
+            and (sb_category like concat('%',#{keyWord},'%')  or sb_title like concat('%',#{keyWord},'%') or sb_contents like concat('%',#{keyWord},'%')
+            or sb_local like concat('%',#{keyWord},'%'))
+        </if>
+        order by sb_num desc LIMIT #{listCnt} OFFSET #{startIdx}
+    </select>
+
+    <select id="getMySales" resultMap="boardResult">
+        select * from mytrade left join boardfile on sb_num = bf_sb_num where sb_salekind = 2 and  sb_id = #{name} and sb_scope = 1 order by sb_num desc
+    </select>
+
+    <select id="getMyCart" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
+ select * from  saleboard join watchlist on w_sb_num = sb_num left join boardfile on sb_num = bf_sb_num where w_id = #{username} and sb_scope = 1 and sb_salekind = 1 order by w_num desc
+
+    </select>
+
+    <select id="getMySalesCart" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
+        select * from  saleboard join watchlist on w_sb_num = sb_num join boardfile on sb_num = bf_sb_num where w_id = #{username} and sb_scope = 1 and sb_salekind = 2 order by w_num desc
+    </select>
+
+    <select id="allList" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
+        select * from saleboard left join boardfile on sb_num = bf_sb_num
+                 where (sb_title like concat('%',#{keyWord},'%') or sb_contents like concat ('%',#{keyWord},'%') or sb_category like concat ('%',#{keyWord},'%')) and sb_scope = 1
+                 order by sb_date desc limit #{startIdx}, #{listCnt}
+    </select>
+
+    <select id="getViewId" resultType="java.lang.String">
+        select sb_id from boardview where sb_num = #{sb_num} and sb_id = #{username}
+    </select>
+
+    <select id="getRecItem" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
+        select * from saleboard where sb_scope = 1 order by sb_view desc limit 4
+    </select>
+
+    <select id="getIndexFile" resultType="com.icia.guree.entity.BoardFileDto">
+        select * from boardfile
+    </select>
+
+    <select id="boardDelList" resultType="com.icia.guree.entity.BoardDto">
+        select * from saleboard where sb_salekind = 1 and sb_scope = 2 order by sb_num desc
+    </select>
+
+    <select id="marketBoardDelList" resultType="com.icia.guree.entity.BoardDto">
+        select * from saleboard where sb_salekind = 2 and sb_scope = 2 order by sb_num desc
+    </select>
+
+    <select id="getCateList" resultType="java.lang.String">
+        select c_kind from category
+    </select>
+
+
+    <select id="countMarketItems" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM saleboard WHERE sb_scope = 1 and sb_salekind = 2
+        <if test="sb_category != null and sb_category != ''">
+            and sb_category = #{sb_category}
+        </if>
+        <if test="keyWord != null and keyWord != ''">
+            and (sb_category like concat('%',#{keyWord},'%') or sb_title like concat('%',#{keyWord},'%') or sb_contents like concat('%',#{keyWord},'%')
+            or sb_local like concat('%',#{keyWord},'%'))
+        </if>
+
+    </select>
+
+    <select id="countAllItems" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM saleboard WHERE sb_scope = 1
+        <if test="keyWord != null and keyWord != ''">
+            and (sb_category like concat('%',#{keyWord},'%') or sb_title like concat('%',#{keyWord},'%') or sb_contents like concat('%',#{keyWord},'%')
+            or sb_local like concat('%',#{keyWord},'%'))
+        </if>
+    </select>
+
+    <select id="boardEndList" resultType="com.icia.guree.entity.BoardDto" resultMap="boardResult">
+        select * from auction where sb_scope = 3
+    </select>
+
+
+</mapper>

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        " http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.icia.seong.dao.CartDao">
-    <insert id="takeItemSelectKey" parameterType="CartDto" useGeneratedKeys="true" keyProperty="h_cart_num">
-        insert into h_cart values
-        (default, #{h_c_user_id}, #{h_c_p_num}, #{h_c_p_qty}, #{h_c_p_sales_price}, h_c_p_sales_price*h_c_p_qty);
-    </insert>
-</mapper>
